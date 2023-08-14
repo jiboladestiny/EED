@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import getAllUsers from "@/app/libs/getAllUsers";
+import React from "react";
+// import getAllUsers from "@/app/libs/getAllUsers";
 // import ClientWrapper from "@/app/component/ClientWrapper";
 
 const page = async () => {
