@@ -24,7 +24,7 @@ const Page = ({ params: { courseId } }: Params) => {
       >
         <div className="absolute w-full h-full bg-black/40 flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-white text-[40px] font-semibold">
+            <h2 className="text-white sm:text-[40px] text-[30px] font-semibold">
               {data[0].title}
             </h2>
 
