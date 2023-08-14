@@ -17,9 +17,11 @@ const Register = () => {
   const router = useRouter();
 const { register, handleSubmit } = useForm<RegisterInput>();
   const onSubmit: SubmitHandler<RegisterInput> = (data) => {
+    toast.success("User has been registered!");
+    router.push("/");
+
     console.log(data)
-  // router.push("/");
-  // toast.success("User has been registered!");
+
 };
 
   // const registerUser = async (e) => {
