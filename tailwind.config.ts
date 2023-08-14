@@ -15,6 +15,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui"), require("tw-elements/dist/plugin.cjs")],
+  darkMode: "class"
 }
 export default config

@@ -1,6 +1,11 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import ToasterContext from './context/ToasterContext'
+import Navbar from './component/Navbar'
+
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
+import Footer from './component/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +21,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <Script
+        type="text/javascript"
+        src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></Script>
+      <body className={inter.className}>  
+        <ToasterContext />
+        <Navbar />
+        {children}
+  <Footer/>
+    </body>
     </html>
   )
 }
