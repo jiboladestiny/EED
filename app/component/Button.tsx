@@ -1,14 +1,20 @@
-
 import React, { ReactNode } from "react";
 
-interface ButtonProps{
-  children: ReactNode,
+interface ButtonProps {
+  children: ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
 }
-const Button = ({ children, onClick}: ButtonProps) => {
+
+const Button = ({ children, onClick, disabled = false }: ButtonProps) => {
   return (
-    <button type="submit" className="btn btn-neutral" onClick={onClick}>
- {children}
+    <button
+      type="submit"
+      className={`btn btn-neutral ${disabled ? "opacity-80 cursor-not-allowed" : ""}`}
+      onClick={onClick}
+      disabled={disabled}  
+    >
+      {children}
     </button>
   );
 };

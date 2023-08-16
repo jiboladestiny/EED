@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../component/Button";
 import Courses from "../datas/Courses";
 import Summary from "../datas/Summary";
+import Link from "next/link";
 
 type Params = {
   params: {
@@ -13,7 +14,7 @@ const Page = ({ params: { courseId } }: Params) => {
   const data = Courses.filter((item) => item.id === parseInt(courseId));
   const summary = Summary.filter((item) => item.courseId === parseInt(courseId));
   return (
-    <div className="px-[1rem] sm:px-[5rem] lg:px-[8rem] ">
+    <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] ">
       <div
         style={{
           backgroundImage: `url(${data[0].image})`,
@@ -60,7 +61,7 @@ const Page = ({ params: { courseId } }: Params) => {
 
 
         <div className="mt-[3rem]"></div>
-        <Button>Take Course</Button>
+        <Link href={`/${courseId}/course`}><Button>Take Course</Button></Link>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@ const Summary = [
     id: 1001,
     courseId: 1,
     outline: "Introduction to Cooking and Pastry",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1667857216/Video_By_Vimeo_oeomik.mp4",
     description:
       "Get introduced to the fascinating world of culinary arts and pastry making. Learn about essential tools, ingredients, and the foundational concepts of flavor combinations.",
   },
@@ -10,6 +12,9 @@ const Summary = [
     id: 1002,
     courseId: 1,
     outline: "Basic Cooking Techniques",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1686067248/pexels-taryn-elliott-5665074-1920x1080-25fps_q2rgks.mp4",
+
     description:
       "Master fundamental cooking techniques that are the building blocks of culinary excellence. Develop skills in knife handling, sautéing, roasting, and boiling.",
   },
@@ -17,6 +22,9 @@ const Summary = [
     id: 1003,
     courseId: 1,
     outline: "Baking Fundamentals",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1667857216/Video_By_Vimeo_oeomik.mp4",
+
     description:
       "Uncover the science and art of baking. Explore precise measuring, proper mixing, and the secrets behind creating delectable baked goods, from bread to pastries.",
   },
@@ -24,6 +32,9 @@ const Summary = [
     id: 1004,
     courseId: 1,
     outline: "International Cuisine",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1667857216/Video_By_Vimeo_oeomik.mp4",
+
     description:
       "Embark on a journey around the world through its flavors. Learn to prepare iconic dishes from various cultures, enhancing your palate with diverse ingredients and techniques.",
   },
@@ -31,6 +42,9 @@ const Summary = [
     id: 1005,
     courseId: 1,
     outline: "Advanced Pastry Techniques",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1667857216/Video_By_Vimeo_oeomik.mp4",
+
     description:
       "Elevate your pastry skills to the next level with advanced techniques. Discover the art of tempering chocolate, crafting intricate desserts, and creating perfectly layered laminated dough.",
   },
