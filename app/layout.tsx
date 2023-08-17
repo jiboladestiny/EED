@@ -1,8 +1,10 @@
+'use client'
 import './globals.css'
 import type { Metadata } from 'next'
 import ToasterContext from './context/ToasterContext'
 import Navbar from './component/Navbar'
 
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import Footer from './component/Footer'
@@ -24,12 +26,19 @@ export default function RootLayout({
       <Script
         type="text/javascript"
         src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></Script>
-      <body className={inter.className}>  
+      <body className={inter.className}>
+
         <ToasterContext />
         <Navbar />
+        <ProgressBar
+          height="6px"
+          color="white"
+          options={{ showSpinner: true }}
+          shallowRouting
+        />
         {children}
-  <Footer/>
-    </body>
+        <Footer />
+      </body>
     </html>
   )
 }

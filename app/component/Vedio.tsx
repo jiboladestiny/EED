@@ -2,7 +2,7 @@ import React from 'react'
 
 
 interface VideoComponentProps {
-    videoUrl: string;
+    videoUrl: string | undefined;
 }
 
 const Vedio = ({ videoUrl }: VideoComponentProps) => {

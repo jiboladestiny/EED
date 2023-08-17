@@ -61,7 +61,7 @@ const Page = ({ params: { courseId } }: Params) => {
 
 
         <div className="mt-[3rem]"></div>
-        <Link href={`/${courseId}/course`}><Button>Take Course</Button></Link>
+        <Link href={`/${courseId}/${summary[0].id}`}><Button>Take Course</Button></Link>
       </div>
     </div>
   );

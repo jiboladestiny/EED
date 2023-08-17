@@ -52,6 +52,8 @@ const Summary = [
     id: 2001,
     courseId: 5,
     outline: "Introduction to Animation",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1692275494/pexels-rostislav-uzunov-7385122_2160p_1_aiu1yf.mp4",
     description:
       "Dive into the world of animation and its various forms. Learn about key principles like timing, spacing, and anticipation that breathe life into static images.",
   },
@@ -59,6 +61,8 @@ const Summary = [
     id: 2002,
     courseId: 5,
     outline: "2D Animation Techniques",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1686067248/pexels-taryn-elliott-5665074-1920x1080-25fps_q2rgks.mp4",
     description:
       "Master the art of 2D animation. Acquire skills in character design, frame-by-frame animation, and storytelling through movement.",
   },
@@ -66,6 +70,9 @@ const Summary = [
     id: 2003,
     courseId: 5,
     outline: "3D Modeling Fundamentals",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1692275494/pexels-rostislav-uzunov-7385122_2160p_1_aiu1yf.mp4",
+
     description:
       "Explore the basics of 3D modeling. Learn to create three-dimensional objects, environments, and characters using industry-standard software.",
   },
@@ -73,6 +80,8 @@ const Summary = [
     id: 2004,
     courseId: 5,
     outline: "Character Rigging and Animation",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1686067248/pexels-taryn-elliott-5665074-1920x1080-25fps_q2rgks.mp4",
     description:
       "Delve into the technical side of animation. Understand the process of rigging characters for movement and learn how to animate them realistically.",
   },
@@ -80,6 +89,8 @@ const Summary = [
     id: 2005,
     courseId: 5,
     outline: "Special Effects and Visual Storytelling",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1686067248/pexels-taryn-elliott-5665074-1920x1080-25fps_q2rgks.mp4",
     description:
       "Learn to add visual flair to your animations. Explore particle effects, lighting, and post-production techniques to enhance the narrative of your creations.",
   },
@@ -87,6 +98,8 @@ const Summary = [
     id: 3001,
     courseId: 4,
     outline: "Introduction to Web Development",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1686067248/pexels-taryn-elliott-5665074-1920x1080-25fps_q2rgks.mp4",
     description:
       "Embark on your journey into the world of web development. Learn about essential web technologies, HTML, CSS, and their roles in creating dynamic websites.",
   },
@@ -94,6 +107,8 @@ const Summary = [
     id: 3002,
     courseId: 4,
     outline: "Front-End Development",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1686067248/pexels-taryn-elliott-5665074-1920x1080-25fps_q2rgks.mp4",
     description:
       "Master front-end development skills. Dive into responsive design, JavaScript programming, and building interactive user interfaces for modern websites.",
   },
@@ -101,6 +116,8 @@ const Summary = [
     id: 3003,
     courseId: 4,
     outline: "Back-End Programming",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1692275494/pexels-rostislav-uzunov-7385122_2160p_1_aiu1yf.mp4",
     description:
       "Explore the back-end of web development. Learn to build server-side logic, handle databases, and create APIs to make your websites dynamic and functional.",
   },
@@ -108,6 +125,8 @@ const Summary = [
     id: 3004,
     courseId: 4,
     outline: "Full-Stack Development",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1686067248/pexels-taryn-elliott-5665074-1920x1080-25fps_q2rgks.mp4",
     description:
       "Become a well-rounded developer by mastering both front-end and back-end skills. Create complete web applications that handle user interactions and data management.",
   },
@@ -115,6 +134,8 @@ const Summary = [
     id: 3005,
     courseId: 4,
     outline: "Web Development Frameworks",
+    vedio:
+      "https://res.cloudinary.com/destiny1233/video/upload/v1692275494/pexels-rostislav-uzunov-7385122_2160p_1_aiu1yf.mp4",
     description:
       "Dive into popular web development frameworks. Learn how to leverage frameworks like React, Angular, or Vue.js to streamline your development process.",
   },
