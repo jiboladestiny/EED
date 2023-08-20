@@ -2,6 +2,12 @@
 import Courses from "./datas/Courses";
 import CourseCard from "./component/CourseCard";
 
+interface Item {
+  id: number,
+  title: string,
+  image: string
+}
+
 export default async function Home() {
   return (
     <main className="px-[1rem] sm:px-[5rem] lg:px-[8rem] pt-[1rem]">
@@ -9,7 +15,7 @@ export default async function Home() {
       <p className="">Choose from the following vocational skills</p>
 
       <div className="grid md:grid-cols-3 grid-cols-1  mt-10 gap-[2rem]">
-        {Courses.map((item) => {
+        {Courses.map((item: Item) => {
           return (
 
             <CourseCard key={item.id} id={item.id} title={item.title} image={item.image} />

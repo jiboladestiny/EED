@@ -19,3 +19,23 @@
   height: 100%;
 }
 
+
+li.quiz {
+  list-style-type: none;
+  cursor: pointer;
+  margin: 9px 0;
+  padding: 16px 8px;
+  color: #000105;
+  border: 1px solid lightgray;
+}
+
+.li.quiz-hover:hover {
+  background-color: #d8d8d8;
+  columns: #fff;
+}
+
+.li.quiz-selected {
+  color: #fff;
+  background-color: #000925;
+}
+

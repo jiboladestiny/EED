@@ -4,8 +4,8 @@ import Vedio from '@/app/component/Vedio'
 // import Section from '@/app/component/Section'
 import Summary from '@/app/datas/Summary'
 import Link from 'next/link'
-import next from 'next/types'
-import { nextTick } from 'process'
+// import next from 'next/types'
+// import { nextTick } from 'process'
 
 import React from 'react'
 
@@ -66,7 +66,7 @@ const page = ({ params: { courseId, sumId } }: Params) => {
 
             <div className='mt-[2rem]'>
                 {isLastCourse && (
-                    <Button>Take Assestment</Button>
+                    <Link href={`/${courseId}/quiz`}><Button>Take Assestment</Button></Link>
                 )}
             </div>
 

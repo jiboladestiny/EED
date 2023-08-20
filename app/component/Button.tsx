@@ -6,13 +6,13 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-const Button = ({ children, onClick, disabled = false }: ButtonProps) => {
+const Button = ({ children, onClick, disabled = true }: ButtonProps) => {
   return (
     <button
       type="submit"
-      className={`btn btn-neutral ${disabled ? "opacity-80 cursor-not-allowed" : ""}`}
+      className={`btn btn-neutral`}
       onClick={onClick}
-      disabled={disabled}  
+      disabled={!disabled}
     >
       {children}
     </button>
