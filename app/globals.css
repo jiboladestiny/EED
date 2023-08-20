@@ -19,8 +19,7 @@
   height: 100%;
 }
 
-
-li.quiz {
+.quiz li {
   list-style-type: none;
   cursor: pointer;
   margin: 9px 0;
@@ -29,12 +28,12 @@ li.quiz {
   border: 1px solid lightgray;
 }
 
-.li.quiz-hover:hover {
+.quiz .li-hover:hover {
   background-color: #d8d8d8;
   columns: #fff;
 }
 
-.li.quiz-selected {
+.quiz .li-selected {
   color: #fff;
   background-color: #000925;
 }

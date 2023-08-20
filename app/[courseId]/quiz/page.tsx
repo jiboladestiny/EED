@@ -81,13 +81,13 @@ const Page = ({ params: { courseId } }: Params) => {
 
                 <h2 className="mt-2 mb-4 sm:text-[21px] italic text-[18px] font-bold leading-8">{question}</h2>
 
-                <ul>{options.map((option, idx) => (
+                <ul className='quiz'>{options.map((option, idx) => (
                     <li key={idx}
                         onClick={
 
                             () => onAnswerSelected(option, idx)
                         }
-                        className={`quiz ${selectedAnswerIndex === idx ? "li-selected" : "li-hover"}`}><span>{option}</span></li>
+                        className={`${selectedAnswerIndex === idx ? "li-selected" : "li-hover"}`}><span>{option}</span></li>
                 ))}</ul>
 
                 <div className="flex justify-between mt-12">
@@ -97,8 +97,8 @@ const Page = ({ params: { courseId } }: Params) => {
 
             </div>) : (<div>
                 <h2 className="mt-2 mb-4 text-gray-500 sm:text-[21px] italic text-[18px] font-bold leading-8">Result</h2>
-                <ul>
-                    <li className='quiz'>
+                    <ul className='quiz'>
+                    <li>
                         Overall: {(result.score / 25) * 100}%
                     </li>
                     <li>Correct Answers: <span className='font-bold'>{result.correctAnswers}</span></li>
