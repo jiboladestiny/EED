@@ -7,7 +7,8 @@ const page = async () => {
   // const users = await usersData;
   return (
     <div className="px-[1rem] sm:px-[5rem] pt-[1rem]">
-      <h2 className="font-bold text-[24px] mt-2 mb-6">Users</h2>
+      <h2 className="mt-10 mb-4 sm:text-[30px] text-[24px] font-bold leading-8">User Dashboard</h2>
+      <h2 className="mt-2 mb-4 text-gray-500 sm:text-[21px] text-[18px] font-bold leading-8">Course</h2>
 
       {/* <Suspense fallback={<div>Loading...</div>}>
         <ClientWrapper users={users} />

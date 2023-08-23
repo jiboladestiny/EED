@@ -1,20 +1,26 @@
 import React, { ReactNode } from "react";
+import add from '../../public/icons/add.png'
+import Image from "next/image";
+import { error } from "console";
 
 interface ButtonProps {
   children: ReactNode;
   onClick?: () => void;
   disabled?: boolean;
+  loading?: boolean;
+  plus?: boolean;
+  error?: boolean
 }
 
-const Button = ({ children, onClick, disabled = true }: ButtonProps) => {
+const Button = ({ children, onClick, disabled = true, loading= false, plus = false , error = false}: ButtonProps) => {
   return (
     <button
       type="submit"
-      className={`btn btn-neutral`}
+      className={`btn btn-neutral flex gap-3 items-center ${error && "btn-error text-white"}`}
       onClick={onClick}
       disabled={!disabled}
     >
-      {children}
+      {children} {plus && <Image alt="add" src={add} width={18} height={18} />}  {loading && <span className="loader"></span>}
     </button>
   );
 };

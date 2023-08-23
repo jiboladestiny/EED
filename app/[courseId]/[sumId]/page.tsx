@@ -36,7 +36,7 @@ const page = ({ params: { courseId, sumId } }: Params) => {
 
     return (
 
-        <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] ">
+        <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
 
             <h2 className="mt-10 mb-4 sm:text-[34px] text-[28px] font-bold leading-8">{summary[0].outline}</h2>
 

@@ -1,37 +1,42 @@
 import React from "react";
-
 // Define the user type
 interface User {
   id: number;
   name: string;
   email: string;
-  role: string
+  role: string;
 }
-interface tableProp{
-  users: User[]
-}
-const Table = ({ users }:tableProp) => {
 
+interface TableProps {
+  users: User[];
+  onEdit: (user: User) => void;   // Prop for editing user
+  onDelete: (userId: number) => void; // Prop for deleting user
+}
+
+const Table: React.FC<TableProps> = ({ users, onEdit, onDelete }) => {
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-5">
                 id
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-5">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-5">
                 Email
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-5">
                 Role
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-5">
                 <span className="sr-only">Edit</span>
+              </th>
+              <th scope="col" className="px-6 py-5">
+                <span className="sr-only">Delete</span>
               </th>
             </tr>
           </thead>
@@ -44,17 +49,27 @@ const Table = ({ users }:tableProp) => {
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   {data.id}
                 </td>
-                <td className="px-6 py-4">{data.name}</td>
-                <td className="px-6 py-4">{data.email}</td>
-                <td className="px-6 py-4">{data.role}</td>{" "}
-                {/* Assuming a default role */}
-                <td className="px-6 py-4 text-right">
+                <td className="px-6 py-5">{data.name}</td>
+                <td className="px-6 py-5">{data.email}</td>
+                <td className="px-6 py-5">{data.role}</td>
+                <td className="px-6 py-5">
                   <a
                     href="#"
+                    onClick={() => onEdit(data)} // Trigger onEdit function with the user data
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                   >
                     Edit
-                  </a>
+                  </a>{" "}
+       
+                </td>
+                <td className="px-6 py-5">
+                  {/* Add a Delete button */}
+                  <button
+                    onClick={() => onDelete(data.id)} // Trigger onDelete function with the user ID
+                    className="ml-2 font-medium text-red-600 dark:text-red-500 hover:underline"
+                  >
+                    Delete 
+                  </button>
                 </td>
               </tr>
             ))}

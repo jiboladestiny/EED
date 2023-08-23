@@ -71,7 +71,7 @@ const Page = ({ params: { courseId } }: Params) => {
     }
     return (
 
-        <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[65vh]">
+        <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
 
             <h2 className="mt-10 mb-4 sm:text-[34px] text-[28px] font-bold leading-8 ">Assestments</h2>
 
@@ -97,7 +97,7 @@ const Page = ({ params: { courseId } }: Params) => {
 
             </div>) : (<div>
                 <h2 className="mt-2 mb-4 text-gray-500 sm:text-[21px] italic text-[18px] font-bold leading-8">Result</h2>
-                    <ul className='quiz'>
+                <ul className='quiz'>
                     <li>
                         Overall: {(result.score / 25) * 100}%
                     </li>
@@ -106,7 +106,7 @@ const Page = ({ params: { courseId } }: Params) => {
                 </ul>
 
                 <Button disabled={true} onClick={
-                    () =>{
+                    () => {
                         setShowResult(false)
                         setResult({
                             score: 0,

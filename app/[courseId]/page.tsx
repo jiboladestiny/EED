@@ -14,7 +14,7 @@ const Page = ({ params: { courseId } }: Params) => {
   const data = Courses.filter((item) => item.id === parseInt(courseId));
   const summary = Summary.filter((item) => item.courseId === parseInt(courseId));
   return (
-    <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] ">
+    <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
       <div
         style={{
           backgroundImage: `url(${data[0].image})`,

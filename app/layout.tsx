@@ -3,10 +3,10 @@ import './globals.css'
 import type { Metadata } from 'next'
 import ToasterContext from './context/ToasterContext'
 import Navbar from './component/Navbar'
-
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import Footer from './component/Footer'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
