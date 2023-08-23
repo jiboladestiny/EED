@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useForm ,SubmitHandler} from "react-hook-form";
 import Link from "next/link";
 import image from "/public/images/auth.jpeg";
+import Button from "../component/Button";
+import { useState } from "react";
 interface RegisterInput{
   name: string,
   email: string,
@@ -16,11 +18,17 @@ interface RegisterInput{
 const Register = () => {
   const router = useRouter();
 const { register, handleSubmit } = useForm<RegisterInput>();
-  const onSubmit: SubmitHandler<RegisterInput> = (data) => {
-    toast.success("User has been registered!");
-    router.push("/");
+  const [loading, setLoading] = useState(false)
 
-    console.log(data)
+  const onSubmit: SubmitHandler<RegisterInput> = (data) => {
+    setLoading(true)
+    setTimeout(() => {
+      toast.success("User has been registered!");
+      router.push("/login");
+      setLoading(false)
+      console.log(data)
+    }, 2000);
+ 
 
 };
 
@@ -92,9 +100,9 @@ const { register, handleSubmit } = useForm<RegisterInput>();
               />
             </div>
 
-            <button type="submit" className="btn btn-neutral">
-              Register
-            </button>
+            <Button loading={loading} disabled={!loading}>{loading ? "Registering" : "Register"}</Button>
+              
+        
             <Link href="/login">
               <span className="text-center">
                 Already have an account?{" "}

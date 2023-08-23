@@ -4,6 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import image from "/public/images/auth.jpeg"
+import { useState } from "react";
+import Button from "../component/Button";
 interface IFormInput {
   email: string
   password: string
@@ -12,10 +14,22 @@ interface IFormInput {
 const Login = () => {
 
   const router = useRouter();
+  const [loading, setLoading] = useState(false)
+
   const { register, handleSubmit } = useForm<IFormInput>()
+
+
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    toast.success("Logged in successfully");
-    router.push("/");
+    setLoading(true)
+    setTimeout(() => {
+      toast.success("Logged in successfully");
+      router.push("/user");
+
+      // toast.success("User Updated successfully")
+      setLoading(false)
+    }, 2000);
+
     console.log(data)
   }
 
@@ -60,9 +74,7 @@ const Login = () => {
               />
             </div>
 
-            <button type="submit" className="btn btn-neutral">
-              Login
-            </button>
+            <Button disabled={!loading} loading={loading}>{loading ? "Logging in" : "Login"}</Button>
 
             <Link href="/register">
               <span className="text-center">

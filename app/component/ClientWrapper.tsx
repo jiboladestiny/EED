@@ -206,7 +206,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
 
 
 
-              <Button loading={loading} plus={plus && !editMode}>{(!editMode && loading)
+              <Button disabled={!loading} loading={loading} plus={plus && !editMode}>{(!editMode && loading)
                 ? "Adding User"
                 : (editMode && loading)
                   ? "Updating User"
@@ -217,11 +217,11 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
               <Image alt="error" src={error} className="mx-auto mb-4" width={48} height={48}/>
               <h2 className="text-center font-semibold">Are you sure you want to to delete the selected user</h2>
 
-              <div className="flex items-center justify-center mt-6 gap-4"><Button  onClick={()=>{
+              <div className="flex items-center justify-center mt-6 gap-4"><Button onClick={()=>{
                 toggleModal()
                 setDeleteModal(false)
               }}>Cancel</Button>
-                <Button onClick={deleteUser} loading={loading} error={true}>{loading ? "Deleting User" : "Delete User"} </Button></div>
+                <Button disabled={!loading} onClick={deleteUser} loading={loading} error={true}>{loading ? "Deleting User" : "Delete User"} </Button></div>
             </>)}
         </Modal>
         <div className="mt-8"></div>

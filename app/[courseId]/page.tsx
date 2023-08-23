@@ -24,7 +24,7 @@ const Page = ({ params: { courseId } }: Params) => {
         className="h-[50vh] w-full relative"
       >
         <div className="absolute w-full h-full bg-black/40 flex items-center justify-center">
-          <div className="text-center">
+          <div className="flex flex-col items-center">
             <h2 className="text-white sm:text-[40px] text-[30px] font-semibold">
               {data[0].title}
             </h2>
@@ -61,7 +61,7 @@ const Page = ({ params: { courseId } }: Params) => {
 
 
         <div className="mt-[3rem]"></div>
-        <Link href={`/${courseId}/${summary[0].id}`}><Button>Take Course</Button></Link>
+        <Link href={`/login`}><Button>Take Course</Button></Link>
       </div>
     </div>
   );
