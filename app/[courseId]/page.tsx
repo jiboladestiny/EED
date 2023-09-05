@@ -45,7 +45,7 @@ const Page = ({ params: { courseId } }: Params) => {
 
 
 
-        {summary.map((item)=>{
+        {summary.map((item) => {
           return (
             <div key={item.id} className="collapse collapse-plus bg-gray-100">
               <input type="radio" name="my-accordion-3" />

@@ -1,6 +1,7 @@
 
 import Courses from "./datas/Courses";
 import CourseCard from "./component/CourseCard";
+import Progress from "./component/Progress";
 
 interface Item {
   id: number,
@@ -19,9 +20,11 @@ export default async function Home() {
           return (
 
             <CourseCard key={item.id} id={item.id} title={item.title} image={item.image} />
-
+          
           );
         })}
+
+   <Progress/>
       </div>
     </main>
   );

@@ -1,6 +1,7 @@
 const Courses = [
   {
     id: 1,
+    userId: 1,
     title: "Cooking and Food Preparation",
     image: "/images/cooking.jpeg",
     instructor: "Samuel Nelson",
@@ -9,6 +10,8 @@ const Courses = [
   },
   {
     id: 4,
+    userId: 2,
+
     title: "Web Development",
     image: "/images/web.webp",
     instructor: "Joshua simon",
@@ -18,6 +21,8 @@ const Courses = [
   },
   {
     id: 5,
+    userId:3,
+
     title: "Animation",
     instructor: "John ricky",
 

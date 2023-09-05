@@ -39,7 +39,9 @@ const Page: React.FC = () => {
         })}
       </ul>
 
-      <Link href={`/admin`}><span className='font-medium text-green-600 dark:text-green-500 hover:underline'>Admin dashboard</span></Link>
+      <Link href={`/admin`}><span className='font-medium text-green-600 dark:text-green-500 hover:underline'>Admin dashboard</span></Link> <br/>
+      <Link href={`/admin/instructor`}><span className='font-medium text-green-600 dark:text-green-500 hover:underline'>Instructor dashboard</span></Link>
+
     </div>
   );
 };

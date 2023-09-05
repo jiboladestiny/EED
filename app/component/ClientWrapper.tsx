@@ -71,8 +71,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
   const onEdit = (user: User) => {
     setEditedUser(user);
     setEditMode(true);
-    reset({ name: user.name, email: user.email, role: user.role }); // Set form fields' values
-
+    reset({name: user.name, email: user.email, role: user.role});
     toggleModal();
   };
 
@@ -233,6 +232,6 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
       </div>
     </div>
   );
-};
+};  
 
 export default ClientWrapper;
