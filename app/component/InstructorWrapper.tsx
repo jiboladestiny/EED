@@ -157,13 +157,12 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
                     const res = await response.json();
                     const { url } = res
 
-                    const newUser: Course = { ...res, image: res, id: userState.courses.length + 1 };
-
+                    const newUser: Course = { ...data, image: url, id: userState.courses.length + 1 };
                     dispatch({ type: 'ADD_USER', payload: newUser });
                     setPlus(true);
                     setLoading(false);
-                    toggleModal();
-                    reset();
+                    // toggleModal();
+                    // reset();
                     toast.success("Course added successfully")
                 } else {
                     throw new Error('Image upload failed');
@@ -210,6 +209,7 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
         <div>
             <div>
                 <Button onClick={toggleModal} plus={true}>Add Course</Button>
+                {JSON.stringify(userState.courses)}
                 <Modal isOpen={isModalOpen} toggleModal={toggleModal}>
                     {deletemodal === false ? (<> <h2 className="text-center font-bold text-xl">{!editMode ? "Add Course" : "Update Course"}</h2>
                         <form

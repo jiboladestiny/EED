@@ -52,7 +52,7 @@ const InstructorTable: React.FC<TableProps> = ({ course, onEdit, onDelete }) => 
                                     {data.id}
                                 </td>
                                 <td className="px-6 py-5">{data.title}</td>
-                                <td className="px-6 py-5">{data.description.substring(0, 150)}...</td>
+                                <td className="px-6 py-5">{data.description}...</td>
                                 <td className="px-6 py-5">
                                     <Link href={`/admin/instructor/${data.id}`}>   <button
 
