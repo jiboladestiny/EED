@@ -3,13 +3,15 @@ import React, { ReactNode } from "react";
 interface ModalProps {
   isOpen: boolean;
   toggleModal: () => void;
+  clear: () => void;
   children: ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal, children, clear }) => {
   const handleCloseModal = () => {
     if (isOpen) {
       toggleModal();
+      clear()
     }
   };
 

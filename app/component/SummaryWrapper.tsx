@@ -87,7 +87,7 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
     setShowVedioModal(false)
     setEditedCourse(data);
     setEditMode(true);
-    reset({});
+    reset({ outline: data.outline, description: data.description });
     // setEditImageFile(data.vedio)
     toggleModal();
   };
@@ -116,6 +116,7 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
       toggleModal();
       reset();
       toast.success("Content Delete successfully")
+      setDeleteModal(false)
     }, 2000)
 
   };
@@ -132,17 +133,13 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
   };
 
 
-
-
-
-
   const onSubmit: SubmitHandler<FormInput> = async (data: FormInput) => {
 
     if (editMode) {
       setLoading(true);
       if (selectedImageFile) {
         try {
-          const response = await fetch("https://api.cloudinary.com/v1_1/destiny1233/image/upload", {
+          const response = await fetch("https://api.cloudinary.com/v1_1/destiny1233/video/upload", {
             method: 'POST',
             body: formData,
           });
@@ -184,7 +181,7 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
 
 
       try {
-        const response = await fetch("https://api.cloudinary.com/v1_1/destiny1233/image/upload", {
+        const response = await fetch("https://api.cloudinary.com/v1_1/destiny1233/video/upload", {
           method: 'POST',
           body: formData,
         });
@@ -192,14 +189,14 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
         if (response.ok) {
           const res = await response.json();
           const { url } = res
-          
-          // const newUser: Summary = { ...data, vedio: url, id: userState.summary.length + 1 };
 
-          // dispatch({ type: 'ADD_USER', payload: newUser });
-          // setPlus(true);
-          // setLoading(false);
-          // toggleModal();
-          // reset();
+          const newUser: Summary = { ...data, vedio: url, id: userState.summary.length + 1 };
+
+          dispatch({ type: 'ADD_USER', payload: newUser });
+          setPlus(true);
+          setLoading(false);
+          toggleModal();
+          reset();
           toast.success("Content added successfully")
         } else {
           throw new Error('Vedio upload failed');
@@ -211,6 +208,14 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
     }
   };
 
+  const cleardatas = () => {
+    setEditMode(false)
+    reset({ outline: "", description: "" });
+    setSelectedImageFile(undefined)
+    setEditImageFile(undefined)
+    setShowVedioModal(false)
+
+  }
 
 
   return (
@@ -218,8 +223,8 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
 
       <Button onClick={toggleModal} plus={true}>Add Content</Button>
 
-      <Modal isOpen={isModalOpen} toggleModal={toggleModal}>
-        {deletemodal  ? 
+      <Modal clear={cleardatas} isOpen={isModalOpen} toggleModal={toggleModal}>
+        {deletemodal ?
           (<>
             <Image alt="error" src={error} className="mx-auto mb-4" width={48} height={48} />
             <h2 className="text-center font-semibold">Are you sure you want to to delete the selected Content</h2>
@@ -233,52 +238,51 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
             <div className='p-[0.8rem]'> <Vedio videoUrl={editImageFile} /></div>
 
           ) : (<>
-              <h2 className="text-center font-bold text-xl">{!editMode ? "Add Content" : "Update Content"}</h2>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="mt-2 flex flex-col space-y-4"
-              >
-                <div className="form-control ">
+            <h2 className="text-center font-bold text-xl">{!editMode ? "Add Content" : "Update Content"}</h2>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="mt-2 flex flex-col space-y-4"
+            >
+              <div className="form-control ">
+                <label className="label">
+                  <span className="label-text">Name</span>
+                </label>
+                <input
+                  {...register("outline")}
+                  type="text"
+                  placeholder="course title"
+                  className="input input-bordered w-full"
+                />
+              </div>
+
+              <div className="">
+                <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Name</span>
+                    <span className="label-text">Image</span>
                   </label>
-                  <input
-                    {...register("description")}
-                    type="text"
-                    placeholder="course title"
-                    className="input input-bordered w-full"
-                    defaultValue={editedCourse?.outline ?? ""}
-                  />
-                </div>
 
-                <div className="">
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">Image</span>
-                    </label>
-
-                    <input onChange={(e) => {
-                      const selectedFile = e.target.files && e.target.files[0];
-                      if (selectedFile && selectedFile.type.startsWith("video/")) {
-                        if (selectedFile.size <= maxFileSize) {
-                          const imageFormData = createImageFormData(selectedFile);
-                          setEditImageFile(undefined)
-                          setSelectedImageFile(selectedFile);
-                          setFormData(imageFormData)
-                        } else {
-
-                          toast.error("File size exceeds the maximum limit (10MB).")
-
-                        }
+                  <input onChange={(e) => {
+                    const selectedFile = e.target.files && e.target.files[0];
+                    if (selectedFile && selectedFile.type.startsWith("video/")) {
+                      if (selectedFile.size <= maxFileSize) {
+                        const imageFormData = createImageFormData(selectedFile);
+                        setEditImageFile(undefined)
+                        setSelectedImageFile(selectedFile);
+                        setFormData(imageFormData)
                       } else {
 
-                        toast.error("Invalid file type. Please select a vedio file.")
+                        toast.error("File size exceeds the maximum limit (10MB).")
 
                       }
-                    }} type="file" className="file-input w-full" />
-                  </div>
+                    } else {
 
-                  {/* <div className="">
+                      toast.error("Invalid file type. Please select a vedio file.")
+
+                    }
+                  }} type="file" className="file-input w-full" />
+                </div>
+
+                {/* <div className="">
                 {(editImageFile) && (
 
                   <Vedio videoUrl={editImageFile} />
@@ -290,30 +294,30 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
 
                 )}
               </div> */}
-                </div>
+              </div>
 
 
-                <div className="form-control ">
-                  <label className="label">
-                    <span className="label-text">Description</span>
-                  </label>
-                  <textarea {...register("description")} placeholder="Course description" className="textarea textarea-bordered textarea-lg w-full" defaultValue={editedCourse?.description ?? ""} ></textarea>
-                </div>
-
-
-
+              <div className="form-control ">
+                <label className="label">
+                  <span className="label-text">Description</span>
+                </label>
+                <textarea {...register("description")} placeholder="Course description" className="textarea textarea-bordered textarea-lg w-full" ></textarea>
+              </div>
 
 
 
 
-                <Button disabled={!loading} loading={loading} plus={plus && !editMode}>{(!editMode && loading)
-                  ? "Adding Content"
-                  : (editMode && loading)
-                    ? "Updating Content"
-                    : (editMode)
-                      ? "Edit Content"
-                      : "Add Content"}</Button>
-              </form></>) }
+
+
+
+              <Button disabled={!loading} loading={loading} plus={plus && !editMode}>{(!editMode && loading)
+                ? "Adding Content"
+                : (editMode && loading)
+                  ? "Updating Content"
+                  : (editMode)
+                    ? "Edit Content"
+                    : "Add Content"}</Button>
+            </form></>)}
       </Modal>
       <div className="mt-8"></div>
 

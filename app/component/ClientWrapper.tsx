@@ -129,25 +129,25 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
       toggleModal();
       reset();
       toast.success("User Delete successfully")
+      setDeleteModal(false)
     }, 2000);
 
+
   };
+
+
+  const cleardatas = () => {
+    setEditMode(false)
+    reset({ name: "", email: "", role: ""});
+
+  }
+
 
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
   };
 
-  // const buttondata = () => {
-  //   if (!editMode && loading) {
-  //     return "Adding User";
-  //   } else if (editMode && loading) {
-  //     return "Updating User";
-  //   } else if (editMode) {
-  //     return "Edit User";
-  //   } else {
-  //     return "Add User";
-  //   }
-  // };
+ 
 
 
 
@@ -155,7 +155,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
     <div>
       <div>
         <Button onClick={toggleModal} plus={true}>Add user</Button>
-        <Modal isOpen={isModalOpen} toggleModal={toggleModal}>
+        <Modal clear={cleardatas} isOpen={isModalOpen} toggleModal={toggleModal}>
           {deletemodal === false ? (<> <h2 className="text-center font-bold text-xl">{!editMode ? "Add User" : "Update User"}</h2>
             <form
               onSubmit={handleSubmit(onSubmit)}

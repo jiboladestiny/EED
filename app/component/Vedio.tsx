@@ -8,7 +8,6 @@ const Vedio = ({ videoUrl }: VideoComponentProps) => {
     const [currentVideoUrl, setCurrentVideoUrl] = useState<string | undefined>(videoUrl);
 
     useEffect(() => {
-        alert("rerender")
         setCurrentVideoUrl(videoUrl);
     }, [videoUrl]);
 

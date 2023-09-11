@@ -87,7 +87,6 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
 
     const onEdit = (course: Course) => {
         setSelectedImageFile(undefined)
-        // console.log(course)
         setEditedCourse(course);
         setEditMode(true);
         reset({ title: course.title, description: course.description });
@@ -161,8 +160,8 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
                     dispatch({ type: 'ADD_USER', payload: newUser });
                     setPlus(true);
                     setLoading(false);
-                    // toggleModal();
-                    // reset();
+                    toggleModal();
+                    reset();
                     toast.success("Course added successfully")
                 } else {
                     throw new Error('Image upload failed');
@@ -196,9 +195,20 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
             toggleModal();
             reset();
             toast.success("Course Delete successfully")
+            setDeleteModal(false)
+
         }, 2000)
 
+
+
     };
+
+    const cleardatas = () => {
+        setEditMode(false)
+        reset({ title: "", description: "" });
+        setEditImageFile(undefined)
+        setSelectedImageFile(undefined)
+    }
 
     const toggleModal = () => {
         setIsModalOpen(prev => !prev);
@@ -209,8 +219,8 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
         <div>
             <div>
                 <Button onClick={toggleModal} plus={true}>Add Course</Button>
-                {JSON.stringify(userState.courses)}
-                <Modal isOpen={isModalOpen} toggleModal={toggleModal}>
+              
+                <Modal clear={cleardatas} isOpen={isModalOpen} toggleModal={toggleModal}>
                     {deletemodal === false ? (<> <h2 className="text-center font-bold text-xl">{!editMode ? "Add Course" : "Update Course"}</h2>
                         <form
                             onSubmit={handleSubmit(onSubmit)}

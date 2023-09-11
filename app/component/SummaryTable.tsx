@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 // Define the user type
 interface Summary {
-    id?: number | undefined; courseId?: number | undefined; outline: string; vedio?: string | undefined; description: string;  
+    id?: number | undefined; courseId?: number | undefined; outline: string; vedio?: string | undefined; description: string;
 }
 interface TableProps {
     summary: Summary[];

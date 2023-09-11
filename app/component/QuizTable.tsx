@@ -1,20 +1,32 @@
-import Link from "next/link";
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 // Define the user type
-interface Course {
-    title: string;
-    description: string;
-    image?: string | undefined;
+interface Quiz {
     id?: number | undefined;
+    courseId?: number | undefined;
+    question: string;
+    options?: string[] | undefined;
+    correctAnswer: string;
 }
-
 interface TableProps {
-    course: Course[];
-    onEdit: (course: Course) => void;   // Prop for editing user
-    onDelete: (courseId: number) => void; // Prop for deleting user
+    quiz: Quiz[];
+    onEdit: (data: Quiz) => void;   // Prop for editing user
+    onDelete: (quizId: number) => void; // Prop for deleting user
 }
 
-const InstructorTable: React.FC<TableProps> = ({ course, onEdit, onDelete }) => {
+const QuizTable: React.FC<TableProps> = ({ quiz, onEdit, onDelete }) => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
     return (
         <div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -25,17 +37,15 @@ const InstructorTable: React.FC<TableProps> = ({ course, onEdit, onDelete }) => 
                                 id
                             </th>
                             <th scope="col" className="px-6 py-5">
-                                Title
+                                question
                             </th>
                             <th scope="col" className="px-6 py-5">
-                                Description
+                                Options
                             </th>
                             <th scope="col" className="px-6 py-5">
-                                <span className="sr-only">Content</span>
+                                Correct Answer
                             </th>
-                            <th scope="col" className="px-6 py-5">
-                                <span className="sr-only">Assestment</span>
-                            </th>
+
                             <th scope="col" className="px-6 py-5">
                                 <span className="sr-only">Edit</span>
                             </th>
@@ -45,7 +55,7 @@ const InstructorTable: React.FC<TableProps> = ({ course, onEdit, onDelete }) => 
                         </tr>
                     </thead>
                     <tbody>
-                        {course.map((data) => (
+                        {quiz.map((data) => (
                             <tr
                                 key={data.id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -53,26 +63,12 @@ const InstructorTable: React.FC<TableProps> = ({ course, onEdit, onDelete }) => 
                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {data.id}
                                 </td>
-                                <td className="px-6 py-5">{data.title}</td>
-                                <td className="px-6 py-5">{data.description.substring(0,100)}...</td>
-                                <td className="px-6 py-5">
-                                    <Link href={`/admin/instructor/quiz/${data.id}`}>   <button
-
-                                        className="font-medium text-green-600 dark:text-green-500 hover:underline"
-                                    >
-                                        Assestment
-                                    </button>{" "}
-                                    </Link>
-                                </td>
-                                <td className="px-6 py-5">
-                                    <Link href={`/admin/instructor/${data.id}`}>   <button
-
-                                        className="font-medium text-green-600 dark:text-green-500 hover:underline"
-                                    >
-                                        Content
-                                    </button>{" "}
-                                    </Link>
-                                </td>
+                                <td className="px-6 py-5">{data.question}</td>
+                                <td className="px-6 py-5 flex flex-row gap-x-2">{data.options?.map((item)=>{
+                                    return (<span className="bg-gray-600 text-white p-2 text-[12px] rounded-lg" key={item}>{item.substring(0,30)}</span>)
+                                })}</td>
+                                <td className="px-6 py-5">{data.correctAnswer}</td>
+                              
                                 <td className="px-6 py-5">
                                     <button
 
@@ -105,4 +101,4 @@ const InstructorTable: React.FC<TableProps> = ({ course, onEdit, onDelete }) => 
     );
 };
 
-export default InstructorTable;
+export default QuizTable;

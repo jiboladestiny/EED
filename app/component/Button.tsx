@@ -5,14 +5,15 @@ import { error } from "console";
 
 interface ButtonProps {
   children: ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void; // Update the prop type
   disabled?: boolean;
   loading?: boolean;
   plus?: boolean;
   error?: boolean
+  type?: string
 }
 
-const Button = ({ children, onClick, disabled = true, loading= false, plus = false , error = false}: ButtonProps) => {
+const Button = ({ children, onClick, disabled = true, loading= false, plus = false , error = false,type = "button" }: ButtonProps) => {
   return (
     <button
       type="submit"

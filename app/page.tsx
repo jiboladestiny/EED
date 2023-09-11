@@ -2,6 +2,7 @@
 import Courses from "./datas/Courses";
 import CourseCard from "./component/CourseCard";
 import Progress from "./component/Progress";
+import Link from "next/link";
 
 interface Item {
   id: number,
@@ -20,11 +21,14 @@ export default async function Home() {
           return (
 
             <CourseCard key={item.id} id={item.id} title={item.title} image={item.image} />
-          
+
           );
         })}
 
-   <Progress/>
+        <div className="flex flex-row gap-2 text-[14px] mt-[1rem]">
+          <Link href={`/admin`}><span className='font-medium text-green-600 dark:text-green-500 hover:underline'>Admin dashboard</span></Link> <br />
+          <Link href={`/admin/instructor`}><span className='font-medium text-green-600 dark:text-green-500 hover:underline'>Instructor dashboard</span></Link>
+        </div>
       </div>
     </main>
   );
