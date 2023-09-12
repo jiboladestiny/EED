@@ -177,7 +177,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
                     <h2 className="text-center font-semibold">Are you sure you want to to delete the selected user</h2>
 
                     <div className="flex items-center justify-center mt-6 gap-4">
-                        <Button disabled={!loading} onClick={deleteUser} loading={loading} error={true}>{loading ? "Deleting User" : "Delete User"} </Button></div>
+                        <Button disabled={!loading} onClick={deleteUser} loading={loading} error={true}>{loading ? "Deleting Question" : "Delete Question"} </Button></div>
                 </>) : (<>        <h2 className="text-center font-bold text-xl">{!editMode ? "Add Queston" : "Edit Question"}</h2>
                     <form
                         onSubmit={handleSubmit(onSubmit)}
@@ -255,7 +255,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
                             </label>
                             <select className="select select-bordered" {...register("correctAnswer")}>
                                 <option value="" disabled>
-                                    Select Role
+                                    Select Answer
                                 </option>
                                 {options.map((name) => (
                                     <option key={name} value={name} selected={editedQuiz?.correctAnswer === name}>
@@ -270,12 +270,12 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
 
 
                         <Button disabled={!loading} loading={loading} plus={plus && !editMode}>{(!editMode && loading)
-                            ? "Adding Course"
+                            ? "Adding Question"
                             : (editMode && loading)
-                                ? "Updating Course"
+                                ? "Updating Question"
                                 : (editMode)
-                                    ? "Edit Course"
-                                    : "Add Course"}</Button>
+                                        ? "Edit Question"
+                                        : "Add Question"}</Button>
                     </form></>)}
 
             </Modal>
