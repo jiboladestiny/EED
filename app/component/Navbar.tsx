@@ -1,18 +1,35 @@
 "use client"
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 // import menu from "../asset/icon//hamburger.svg";
 // import menucancel from "../asset/icon/icons8-cancel.svg";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 
 const Navbar = () => {
-    const avatar = false
-    const pathname = usePathname()
+  const avatar = false
+  const pathname = usePathname()
+  const router = useRouter()
 
-    if (pathname === "/register" || pathname === "/login") {
-      return 
+  if (pathname === "/register" || pathname === "/login") {
+    return
+  }
+
+  const logout = async () => {
+    try {
+      await axios.get("api/logout")
+
+      toast.success("Logged out succesfully");
+      router.push("/login");
+    } catch (error: any) {
+      console.log(error.response)
+      // toast.error(error.response.data.message);
     }
+
+  }
+
   return (
     <div className="navbar bg-gray-700 border-slate-400 px-[1rem] lg:px-[10rem] sm:px-[7rem]">
       <div className="flex-1">
@@ -34,7 +51,7 @@ const Navbar = () => {
               <div className="avatar placeholder">
                 <div className="bg-base-100 text-neutral rounded-full w-12">
                   <span>AJ</span>
-                </div>
+                </div>x
               </div>
             )}
           </label>
@@ -43,13 +60,11 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
-                Profile
-              </a>
+              <Link href="/profile"> Profile</Link>
             </li>
-            
-            <li>
-              <Link href="/login">Logout</Link>
+
+            <li onClick={logout}>
+              <a>Logout</a>
             </li>
           </ul>
         </div>

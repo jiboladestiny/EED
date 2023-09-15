@@ -6,6 +6,7 @@ import Link from "next/link";
 import image from "/public/images/auth.jpeg"
 import { useState } from "react";
 import Button from "../component/Button";
+import axios from "axios";
 interface IFormInput {
   email: string
   password: string
@@ -20,17 +21,19 @@ const Login = () => {
 
 
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    setLoading(true)
-    setTimeout(() => {
-      toast.success("Logged in successfully");
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    try {
+      setLoading(true)
+      const res = await axios.post("api/login", data)
+      // console.log(res.data.message)
+      toast.success(res.data.message);
       router.push("/user");
-
-      // toast.success("User Updated successfully")
+    } catch (error: any) {
+      console.log(error)
+      toast.error(error.response.data.error);
+    } finally {
       setLoading(false)
-    }, 2000);
-
-    console.log(data)
+    }
   }
 
 

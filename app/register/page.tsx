@@ -1,46 +1,50 @@
 "use client";
 
-// import axios from "axios";
+import axios from "axios";
 // import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useForm ,SubmitHandler} from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import image from "/public/images/auth.jpeg";
 import Button from "../component/Button";
 import { useState } from "react";
-interface RegisterInput{
+interface RegisterInput {
   name: string,
   email: string,
-  password:string
+  password: string
 }
 
 const Register = () => {
   const router = useRouter();
-const { register, handleSubmit } = useForm<RegisterInput>();
+  const { register, handleSubmit } = useForm<RegisterInput>();
   const [loading, setLoading] = useState(false)
 
-  const onSubmit: SubmitHandler<RegisterInput> = (data) => {
-    setLoading(true)
-    setTimeout(() => {
-      toast.success("User has been registered!");
+  const onSubmit: SubmitHandler<RegisterInput> = async (data) => {
+    try {
+      setLoading(true)
+      const res = await axios.post("api/user", data)
+      console.log(res.data.message)
+      toast.success(res.data.message);
       router.push("/login");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
       setLoading(false)
-      console.log(data)
-    }, 2000);
- 
+    }
 
-};
+
+  };
 
   // const registerUser = async (e) => {
   //   e.preventDefault();
 
   //     router.push("/");
 
-    // axios
-    //   .post("/api/register", data)
-    //   .then(() => toast.success("User has been registered!"))
-    //   .catch(() => toast.error("Something went wrong!"));
+  // axios
+  //   .post("/api/register", data)
+  //   .then(() => toast.success("User has been registered!"))
+  //   .catch(() => toast.error("Something went wrong!"));
   // };
 
   // useEffect(() => {
@@ -101,8 +105,8 @@ const { register, handleSubmit } = useForm<RegisterInput>();
             </div>
 
             <Button loading={loading} disabled={!loading}>{loading ? "Registering" : "Register"}</Button>
-              
-        
+
+
             <Link href="/login">
               <span className="text-center">
                 Already have an account?{" "}
