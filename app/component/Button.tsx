@@ -1,7 +1,7 @@
+"use client"
 import React, { ReactNode } from "react";
 import add from '../../public/icons/add.png'
 import Image from "next/image";
-import { error } from "console";
 
 interface ButtonProps {
   children: ReactNode;
@@ -14,6 +14,7 @@ interface ButtonProps {
 }
 
 const Button = ({ children, onClick, disabled = true, loading= false, plus = false , error = false,type = "button" }: ButtonProps) => {
+
   return (
     <button
       type="submit"

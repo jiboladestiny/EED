@@ -1,6 +1,6 @@
 'use client'
-import Button from '@/app/component/Button'
-import Vedio from '@/app/component/Vedio'
+import Button from '../../component/Button'
+import Vedio from '../../component/Vedio'
 // import Section from '@/app/component/Section'
 import Summary from '@/app/datas/Summary'
 import Link from 'next/link'

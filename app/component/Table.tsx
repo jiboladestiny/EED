@@ -1,10 +1,10 @@
 import React from "react";
 // Define the user type
 interface User {
-  id: number;
+  _id: number;
   name: string;
   email: string;
-  role: string;
+  isAdmin: string;
 }
 
 interface TableProps {
@@ -43,15 +43,21 @@ const Table: React.FC<TableProps> = ({ users, onEdit, onDelete }) => {
           <tbody>
             {users.map((data) => (
               <tr
-                key={data.id}
+                key={data._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  {data.id}
+                  {data._id}
                 </td>
                 <td className="px-6 py-5">{data.name}</td>
                 <td className="px-6 py-5">{data.email}</td>
-                <td className="px-6 py-5">{data.role}</td>
+                <td className="px-6 py-5">{data.isAdmin == "1"
+                  ? "USER"
+                  : data.isAdmin == "2"
+                    ? "ADMIN"
+                    : data.isAdmin == "3"
+                      ? "INSTRUCTOR"
+                      : data.isAdmin}</td>
                 <td className="px-6 py-5">
                   <a
                     href="#"
@@ -65,7 +71,7 @@ const Table: React.FC<TableProps> = ({ users, onEdit, onDelete }) => {
                 <td className="px-6 py-5">
                   {/* Add a Delete button */}
                   <button
-                    onClick={() => onDelete(data.id)} // Trigger onDelete function with the user ID
+                    onClick={() => onDelete(data._id)} // Trigger onDelete function with the user ID
                     className="ml-2 font-medium text-red-600 dark:text-red-500 hover:underline"
                   >
                     Delete 

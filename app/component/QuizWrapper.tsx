@@ -7,12 +7,13 @@ import Button from './Button';
 import Modal from './Modal';
 import Image from 'next/image';
 import error from '../../public/icons/error.png'
+import useHttpRequest from '@/helpers/useHttpRequest';
 
 
 
 interface Quiz {
-    id?: number | undefined;
-    courseId?: number | undefined;
+    _id?: number | undefined;
+    courseId?: string | undefined;
     question: string;
     options?: string[] | undefined;
     correctAnswer: string;
@@ -27,7 +28,7 @@ interface FormInput {
 
 interface QuizProps {
     quiz: Quiz[];
-    course: number
+    course: string | undefined
 }
 
 
@@ -47,11 +48,11 @@ const reducer = (state: State, action: Action): State => {
         case 'UPDATE_USER':
 
             const updatedUsers = state.quiz.map(course =>
-                course.id === action.payload.id ? action.payload : course
+                course._id === action.payload._id ? action.payload : course
             );
             return { ...state, quiz: updatedUsers };
         case 'DELETE_USER':
-            return { ...state, quiz: state.quiz.filter(course => course.id !== action.payload) };
+            return { ...state, quiz: state.quiz.filter(course => course._id !== action.payload) };
         default:
             return state;
     }
@@ -63,7 +64,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
     const [userState, dispatch] = useReducer(reducer, { quiz });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [plus, setPlus] = useState(true)
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     const { register, handleSubmit, reset } = useForm<FormInput>();
     const [editMode, setEditMode] = useState(false);
     const [deletemodal, setDeleteModal] = useState(false)
@@ -73,13 +74,15 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
     const [options, setOptions] = useState<string[]>([]);
     const [optionValue, setOptionValue] = useState<string>("");
     const isOptionInputDisabled = options.length >= 4;
+    const { makeRequest, loading } = useHttpRequest(); 
+
 
 
 
     const onEdit = (quiz: Quiz) => {
         setDeleteModal(false)
         setEditedQuiz(quiz);
-        setOptions(quiz.options || []); // Initialize with an empty array if options are undefined
+        setOptions(quiz.options || []);
         setEditMode(true);
         reset({ question: quiz.question, correctAnswer: quiz.correctAnswer });
         toggleModal();
@@ -95,20 +98,25 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
 
 
     const deleteUser = async () => {
-        setLoading(true);
+        const requestConfig = {
+            method: "delete",
+            url: `${process.env.BASE_URL}/api/quiz/${deleteid}`,
+        };
+        const successMessage = "Question Delete successfully";
 
-        setTimeout(() => {
+        const success = await makeRequest(requestConfig, successMessage);
+
+        if (success) {
             dispatch({ type: 'DELETE_USER', payload: deleteid });
-            setLoading(false);
             toggleModal();
             reset();
             toast.error("Content Delete successfully")
-        }, 2000)
+        }
 
     };
 
     const onSubmit: SubmitHandler<FormInput> = async (data: FormInput) => {
-        setLoading(true);
+        // setLoading(true);
         if (editMode) {
             const updatedQuiz: Quiz = {
                 ...editedQuiz,
@@ -117,33 +125,55 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
                 options: options.filter((option) => option.trim() !== ""),
             };
 
-            setTimeout(() => {
+            const requestConfig = {
+                method: 'put',
+                url: `${process.env.BASE_URL}/api/quiz`,
+                data: updatedQuiz,
+            };
+
+            const successMessage = "Question Updated successfully";
+
+            const success = await makeRequest(requestConfig, successMessage);
+            if (success) {
                 dispatch({ type: 'UPDATE_USER', payload: updatedQuiz });
-                setLoading(false);
+                // setLoading(false);
                 toggleModal();
                 reset();
-                toast.success("Content updated successfully");
-            }, 2000);
+                // toast.success("Content updated successfully");
+            }
+
 
         } else {
             const quizData: Quiz = {
-                id: userState.quiz.length,
+                _id: userState.quiz.length,
                 courseId: course,
                 question: data.question,
                 correctAnswer: data.correctAnswer,
-                options: options.filter((option) => option.trim() !== ""), // Remove empty options
+                options: options.filter((option) => option.trim() !== ""), 
             };
 
-            console.log(quizData)
+       
 
-            setTimeout(() => {
+            const requestConfig = {
+                method: 'post',
+                url: `${process.env.BASE_URL}/api/quiz`,
+                data: quizData,
+            };
+
+            const successMessage = "Question added successfullys";
+
+            const success = await makeRequest(requestConfig, successMessage);
+            if (success) {
                 dispatch({ type: 'ADD_USER', payload: quizData });
                 setPlus(true);
-                setLoading(false); // Stop loading after add
+                // setLoading(false);
                 toggleModal();
                 reset();
-                toast.success("Question added successfully")
-            }, 2000);
+                // toast.success("Question added successfully")
+            }
+
+
+
         }
     };
 

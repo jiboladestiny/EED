@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 // Define the user type
 interface Summary {
-    id?: number | undefined; courseId?: number | undefined; outline: string; vedio?: string | undefined; description: string;
+    _id?: number | undefined; courseId?: string | undefined; outline: string; vedio?: string | undefined; description: string;
 }
 interface TableProps {
     summary: Summary[];
@@ -55,11 +55,11 @@ const SummaryTable: React.FC<TableProps> = ({ summary, onEdit, onDelete, onShowV
                     <tbody>
                         {summary.map((data) => (
                             <tr
-                                key={data.id}
+                                key={data._id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                             >
                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {data.id}
+                                    {data._id}
                                 </td>
                                 <td className="px-6 py-5">{data.outline}</td>
                                 <td className="px-6 py-5 md:w-auto">{isMobile
@@ -89,8 +89,8 @@ const SummaryTable: React.FC<TableProps> = ({ summary, onEdit, onDelete, onShowV
                                     {/* Add a Delete button */}
                                     <button
                                         onClick={() => {
-                                            if (data.id !== undefined) {
-                                                onDelete(data.id); // Trigger onDelete function with the user ID
+                                            if (data._id !== undefined) {
+                                                onDelete(data._id); // Trigger onDelete function with the user ID
                                             }
                                         }}
                                         className="ml-2 font-medium text-red-600 dark:text-red-500 hover:underline"

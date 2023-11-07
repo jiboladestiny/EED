@@ -2,14 +2,17 @@
 import React, { useReducer, useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Form } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
-import error from '../../public/icons/error.png'
+import error from '/public/icons/error.png'
 import InstructorTable from "./InstructorTable";
+import axios from "axios";
+import { Data } from "../context/DataProvider";
+
 
 interface Course {
-    id?: number;
+    _id?: number;
     title: string;
     description: string;
     image?: string | undefined;
@@ -47,11 +50,11 @@ const reducer = (state: State, action: Action): State => {
         case 'UPDATE_USER':
 
             const updatedUsers = state.courses.map(course =>
-                course.id === action.payload.id ? action.payload : course
+                course._id === action.payload._id ? action.payload : course
             );
             return { ...state, courses: updatedUsers };
         case 'DELETE_USER':
-            return { ...state, courses: state.courses.filter(course => course.id !== action.payload) };
+            return { ...state, courses: state.courses.filter(course => course._id !== action.payload) };
         default:
             return state;
     }
@@ -73,6 +76,9 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
     const [formData, setFormData] = useState<any | null>()
     const [selectedImageFile, setSelectedImageFile] = useState<File | undefined>(undefined);
     const [editImageFile, setEditImageFile] = useState<string | undefined>(undefined);
+    // const {makeRequest,loading, resp} = useHttpRequest()
+    const { data } = Data()
+
 
     const role: string[] = ["USER", "ADMIN", "INSTRUCTOR"]
 
@@ -96,46 +102,54 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
 
 
 
-    const onSubmit: SubmitHandler<UserForm> = async (data: UserForm) => {
+    const onSubmit: SubmitHandler<UserForm> = async (datas: UserForm) => {
 
         if (editMode) {
             setLoading(true);
             if (selectedImageFile) {
                 try {
-                    const response = await fetch("https://api.cloudinary.com/v1_1/destiny1233/image/upload", {
-                        method: 'POST',
-                        body: formData,
-                    });
+                    const res: any = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/image/upload",formData)
+                    if (res.status === 200) {
+                        const { url } = res.data
+                        toast.success("Image uploaded successfully")
 
-                    if (response.ok) {
-                        const res = await response.json();
-                        const { url } = res
-                        const updatedUser: Course = { ...editedCourse!, image: url, ...data };
-                        updateCourse(updatedUser);
-                        setEditMode(false);
-                        setLoading(false);
-                        toggleModal();
-                        reset()
-                        toast.success("Course Updated successfully")
-                    } else {
-                        throw new Error('Image upload failed');
+                        const secondresponse = await axios.put(`${process.env.BASE_URL}/api/course`, { ...editedCourse!, image: url, ...datas });
+                        if (secondresponse.status === 200) {
+                            const updatedUser: Course = { ...editedCourse!, image: url, ...datas };
+                            updateCourse(updatedUser);
+                            setEditMode(false);
+                            setLoading(false);
+                            toggleModal();
+                            reset()
+                            toast.success("Course Updated successfully")
+                        }
+
                     }
-                } catch (error) {
-                    console.error('Error uploading image:', error);
-                    return undefined;
+                } catch (error: any) {
+                    console.log(error)
+                    setLoading(false);
+                    toast.error(error.response.data.message);
+
                 }
 
             } else {
-                const updatedUser: Course = { ...editedCourse, ...data };
-                setTimeout(() => {
-                    updateCourse(updatedUser);
-                    setEditMode(false);
-                    setLoading(false);
-                    toggleModal();
-                    reset()
-                    toast.success("Course Updated successfully")
+                try {
+                    const secondresponse = await axios.put(`${process.env.BASE_URL}/api/course`, { ...editedCourse, ...datas });
+                    if (secondresponse.status === 200) {
+                        const updatedUser: Course = { ...editedCourse, ...datas };
+                        updateCourse(updatedUser);
+                        setEditMode(false);
+                        toggleModal();
+                        reset()
+                        toast.success("Course Updated successfully")
+                    }
 
-                }, 2000);
+                } catch (error: any) {
+                    console.log(error)
+                    setLoading(false);
+                    toast.error(error.response.data.message);
+
+                }
             }
 
 
@@ -143,33 +157,33 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
 
         } else {
             setPlus(false);
-            setLoading(true);
-
-
+            setLoading(true)
             try {
-                const response = await fetch("https://api.cloudinary.com/v1_1/destiny1233/image/upload", {
-                    method: 'POST',
-                    body: formData,
-                });
+                const response: any = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/image/upload", formData);
+                if (response.status === 200) {
+                    toast.success("Image uploaded successfully");
 
-                if (response.ok) {
-                    const res = await response.json();
-                    const { url } = res
+                    const { url } = response.data;
 
-                    const newUser: Course = { ...data, image: url, id: userState.courses.length + 1 };
-                    dispatch({ type: 'ADD_USER', payload: newUser });
-                    setPlus(true);
-                    setLoading(false);
-                    toggleModal();
-                    reset();
-                    toast.success("Course added successfully")
-                } else {
-                    throw new Error('Image upload failed');
+                    const secondresponse = await axios.post(`${process.env.BASE_URL}/api/course`, { ...datas, image: url, userId: data?._id });
+                    if (secondresponse.status === 200) {
+                        const newUser: Course = { ...datas, image: url, _id: userState.courses.length + 1 };
+                        dispatch({ type: 'ADD_USER', payload: newUser });
+                        setPlus(true);
+                        setLoading(false);
+                        toggleModal();
+                        reset();
+                        toast.success("Course added successfully");
+                    }
+
                 }
-            } catch (error) {
-                console.error('Error uploading image:', error);
-                return undefined;
+            } catch (error: any) {
+                setLoading(false)
+                toast.error(error.response.data.error);
             }
+
+
+
         }
     };
 
@@ -189,15 +203,23 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
 
     const deleteUser = async () => {
         setLoading(true);
-        setTimeout(() => {
-            dispatch({ type: 'DELETE_USER', payload: deleteid });
-            setLoading(false);
-            toggleModal();
-            reset();
-            toast.success("Course Delete successfully")
-            setDeleteModal(false)
 
-        }, 2000)
+        try {
+            const res: any = await axios.delete(`${process.env.BASE_URL}/api/course/${deleteid}`)
+            if (res.status === 200) {
+                dispatch({ type: 'DELETE_USER', payload: deleteid });
+                toggleModal();
+                reset();
+                setLoading(false)
+                toast.success("Course Delete successfully")
+                setDeleteModal(false)
+            }
+
+        } catch (error: any) {
+            setLoading(false)
+            console.log(error)
+            toast.error(error.response.data.error);
+        }
 
 
 
@@ -219,7 +241,7 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
         <div>
             <div>
                 <Button onClick={toggleModal} plus={true}>Add Course</Button>
-              
+
                 <Modal clear={cleardatas} isOpen={isModalOpen} toggleModal={toggleModal}>
                     {deletemodal === false ? (<> <h2 className="text-center font-bold text-xl">{!editMode ? "Add Course" : "Update Course"}</h2>
                         <form

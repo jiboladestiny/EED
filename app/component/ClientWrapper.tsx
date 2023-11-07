@@ -7,17 +7,19 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
 import error from '../../public/icons/error.png'
+import axios from "axios";
+import useHttpRequest from "@/helpers/useHttpRequest";
 
 interface User {
-  id: number;
+  _id: number;
   name: string;
   email: string;
-  role: string;
+  isAdmin: string;
 }
 interface UserForm {
   name: string;
   email: string;
-  role: string;
+  isAdmin: string;
 }
 
 type State = {
@@ -35,11 +37,11 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, users: [...state.users, action.payload] };
     case 'UPDATE_USER':
       const updatedUsers = state.users.map(user =>
-        user.id === action.payload.id ? action.payload : user
+        user._id === action.payload._id ? action.payload : user
       );
       return { ...state, users: updatedUsers };
     case 'DELETE_USER':
-      return { ...state, users: state.users.filter(user => user.id !== action.payload) };
+      return { ...state, users: state.users.filter(user => user._id !== action.payload) };
     default:
       return state;
   }
@@ -53,25 +55,27 @@ interface FormInput {
   name: string;
   email: string;
 
-  role: string;
+  isAdmin: string;
 }
 
 const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userState, dispatch] = useReducer(reducer, { users });
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [plus, setPlus] = useState(true)
   const { register, handleSubmit, reset } = useForm<FormInput>();
   const [editMode, setEditMode] = useState(false);
   const [deletemodal, setDeleteModal] = useState(false)
-  const [deleteid, setDeleteId] = useState<number>()
+  const [deleteid, setDeleteid] = useState<number>()
   const [editedUser, setEditedUser] = useState<User | null>(null);
-  const role: string[] = ["USER", "ADMIN", "INSTRUCTOR"]
+  const isAdmin: string[] = ["1", "2", "3"]
+  const { makeRequest, loading } = useHttpRequest(); 
+
 
   const onEdit = (user: User) => {
     setEditedUser(user);
     setEditMode(true);
-    reset({name: user.name, email: user.email, role: user.role});
+    reset({ name: user.name, email: user.email, isAdmin: user.isAdmin });
     toggleModal();
   };
 
@@ -79,32 +83,48 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
 
   const onSubmit: SubmitHandler<UserForm> = async (data: UserForm) => {
     if (editMode) {
-      setLoading(true); // Start loading on edit
+   
       const updatedUser: User = { ...editedUser!, ...data };
-      // Delay the edit functionality by 2 seconds
-      setTimeout(() => {
+
+
+      const requestConfig = {
+        method: 'put',
+        url: `${process.env.BASE_URL}/api/user`,
+        data: updatedUser,
+      };
+
+      const successMessage = "User Updated successfully";
+
+      const success = await makeRequest(requestConfig, successMessage);
+      if (success) {
         updateUser(updatedUser);
         setEditMode(false);
-        setLoading(false); // Stop loading after edit
-        toggleModal();
-        reset()
-        toast.success("User Updated successfully")
-
-      }, 2000);
-    } else {
-      setPlus(false);
-      setLoading(true); // Start loading on add
-      const responseData = data;
-      const newUser: User = { ...responseData, id: userState.users.length + 1 };
-      // Delay the add functionality by 2 seconds
-      setTimeout(() => {
-        dispatch({ type: 'ADD_USER', payload: newUser });
-        setPlus(true);
-        setLoading(false); // Stop loading after add
         toggleModal();
         reset();
-        toast.success("User added successfully")
-      }, 2000);
+      }
+
+    } else {
+      setPlus(false);
+    
+      const responseData = data;
+      const newUser: User = { ...responseData, _id: userState.users.length * 343434478787879 };
+
+  
+      const requestConfig = {
+        method: 'post',
+        url: `${process.env.BASE_URL}/api/user`,
+        data: responseData,
+      };
+
+      const successMessage = "User added successfullys";
+
+      const success = await makeRequest(requestConfig, successMessage);
+      if (success) {
+        dispatch({ type: 'ADD_USER', payload: newUser });
+        setPlus(true);
+        toggleModal();
+        reset();
+      }
     }
   };
 
@@ -113,24 +133,29 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
     dispatch({ type: 'UPDATE_USER', payload: updatedUser });
   };
 
-  const onDelete = (userId: number) => {
+  const onDelete = (userid: number) => {
     setDeleteModal(true)
-    setDeleteId(userId)
+    setDeleteid(userid)
     toggleModal()
-    
+
   };
 
 
-  const deleteUser = () => {
-    setLoading(true);
-    setTimeout(() => {
+  const deleteUser = async () => {
+    const requestConfig = {
+      method: "delete",
+      url: `${process.env.BASE_URL}/api/user/${deleteid}`,
+    };
+    const successMessage = "User Delete successfully";
+
+    const success = await makeRequest(requestConfig, successMessage);
+
+    if (success) {
       dispatch({ type: 'DELETE_USER', payload: deleteid as number });
-      setLoading(false); // Stop loading after add
       toggleModal();
       reset();
-      toast.success("User Delete successfully")
-      setDeleteModal(false)
-    }, 2000);
+    }
+
 
 
   };
@@ -138,7 +163,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
 
   const cleardatas = () => {
     setEditMode(false)
-    reset({ name: "", email: "", role: ""});
+    reset({ name: "", email: "", isAdmin: "" });
 
   }
 
@@ -147,7 +172,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
     setIsModalOpen(prev => !prev);
   };
 
- 
+
 
 
 
@@ -190,13 +215,19 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
                 <label className="label">
                   <span className="label-text">User role</span>
                 </label>
-                <select className="select select-bordered" {...register("role")}>
+                <select className="select select-bordered" {...register("isAdmin")}>
                   <option value="" disabled>
-                    Select Role
+                    Set Role
                   </option>
-                  {role.map((name) => (
-                    <option key={name} value={name} selected={editedUser?.role === name}>
-                      {name}
+                  {isAdmin.map((name) => (
+                    <option key={name} value={name} selected={editedUser?.isAdmin === name}>
+                      {name === "1"
+                        ? "USER"
+                        : name === "2"
+                          ? "ADMIN"
+                          : name === "3"
+                            ? "INSTRUCTOR"
+                            : name}
                     </option>
                   ))}
                 </select>
@@ -213,10 +244,10 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
                     ? "Edit User"
                     : "Add User"}</Button>
             </form></>) : (<>
-              <Image alt="error" src={error} className="mx-auto mb-4" width={48} height={48}/>
+              <Image alt="error" src={error} className="mx-auto mb-4" width={48} height={48} />
               <h2 className="text-center font-semibold">Are you sure you want to to delete the selected user</h2>
 
-              <div className="flex items-center justify-center mt-6 gap-4"><Button onClick={()=>{
+              <div className="flex items-center justify-center mt-6 gap-4"><Button onClick={() => {
                 toggleModal()
                 setDeleteModal(false)
               }}>Cancel</Button>
@@ -232,6 +263,6 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
       </div>
     </div>
   );
-};  
+};
 
 export default ClientWrapper;

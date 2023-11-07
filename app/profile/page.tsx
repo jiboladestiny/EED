@@ -1,6 +1,15 @@
-import React from 'react'
+"use client"
+import userData from "@/helpers/userData";
+import axios from "axios";
+import { Data } from "../context/DataProvider";
+import Cookies from 'js-cookie';
 
-const page = () => {
+const Profile = () => {
+    const { data } = Data()
+    const role = Cookies.get('role');
+
+    // console.log(role)
+
     return (
         <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
             <h2 className="mt-10 mb-4 sm:text-[30px] text-[24px] font-bold leading-8">User Profile</h2>
@@ -9,12 +18,14 @@ const page = () => {
 
             <div>
                 <form action="">
+
                     <div className="form-control ">
                         <label className="label">
                             <span className="label-text">Name</span>
                         </label>
                         <input
                             type="text"
+
                             placeholder="Name"
                             className="input input-bordered w-full max-w-sm"
                             disabled
@@ -30,7 +41,7 @@ const page = () => {
                             type="email"
                             placeholder="Email"
                             className="input input-bordered w-full max-w-sm"
-                     disabled
+                            disabled
                         />
                     </div>
 
@@ -46,10 +57,19 @@ const page = () => {
                             disabled
                         />
                     </div>
+
+
                 </form>
+
+                <button onClick={() => {
+                    const role = Cookies.get('role');
+                    console.log(data?.name)
+                    // console.log(role)
+                    // console.log("1" == data?.isAdmin)
+                }}>Check</button>
             </div>
         </div>
     )
 }
 
-export default page
+export default Profile

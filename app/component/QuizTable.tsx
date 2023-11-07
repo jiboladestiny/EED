@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 // Define the user type
 interface Quiz {
-    id?: number | undefined;
-    courseId?: number | undefined;
+    _id?: number | undefined;
+    courseId?: string | undefined;
     question: string;
     options?: string[] | undefined;
     correctAnswer: string;
@@ -15,18 +15,6 @@ interface TableProps {
 }
 
 const QuizTable: React.FC<TableProps> = ({ quiz, onEdit, onDelete }) => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
     return (
         <div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -57,11 +45,11 @@ const QuizTable: React.FC<TableProps> = ({ quiz, onEdit, onDelete }) => {
                     <tbody>
                         {quiz.map((data) => (
                             <tr
-                                key={data.id}
+                                key={data._id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                             >
                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {data.id}
+                                    {data._id}
                                 </td>
                                 <td className="px-6 py-5">{data.question}</td>
                                 <td className="px-6 py-5 flex flex-row gap-x-2">{data.options?.map((item)=>{
@@ -83,8 +71,8 @@ const QuizTable: React.FC<TableProps> = ({ quiz, onEdit, onDelete }) => {
                                     {/* Add a Delete button */}
                                     <button
                                         onClick={() => {
-                                            if (data.id !== undefined) {
-                                                onDelete(data.id); // Trigger onDelete function with the user ID
+                                            if (data._id !== undefined) {
+                                                onDelete(data._id); // Trigger onDelete function with the user ID
                                             }
                                         }}
                                         className="ml-2 font-medium text-red-600 dark:text-red-500 hover:underline"

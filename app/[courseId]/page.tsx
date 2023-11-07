@@ -11,7 +11,7 @@ type Params = {
 }
 
 const Page = ({ params: { courseId } }: Params) => {
-  const data = Courses.filter((item) => item.id === parseInt(courseId));
+  const data = Courses.filter((item) => item._id === parseInt(courseId));
   const summary = Summary.filter((item) => item.courseId === parseInt(courseId));
   return (
     <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">

@@ -6,6 +6,7 @@ import Navbar from './component/Navbar'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import Footer from './component/Footer'
+import DataProvider from '@/app/context/DataProvider'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -26,12 +27,14 @@ export default function RootLayout({
         type="text/javascript"
         src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></Script>
       <body className={inter.className}>
+        <DataProvider>
+          
+          <ToasterContext />
+          <Navbar />
 
-        <ToasterContext />
-        <Navbar />
-
-        {children}
-        <Footer />
+          {children}
+          <Footer />
+        </DataProvider>
       </body>
     </html>
   )

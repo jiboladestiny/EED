@@ -1,21 +1,36 @@
 
 
 import InstructorWrapper from "@/app/component/InstructorWrapper";
+import courseData from "@/helpers/getAllCourse";
 import Courses from "@/app/datas/Courses";
+import { Suspense } from "react";
+import { Data } from "../../context/DataProvider";
+import Cookies from 'js-cookie';
+import { cookies } from 'next/headers'
+
 // import getAllUsers from "@/app/libs/getAllUsers";
 // import ClientWrapper from "@/app/component/ClientWrapper";
 
 const page = async () => {
-  // const usersData = getAllUsers();
-  // const users = await usersData;
+  const course  = await courseData()
+  const cookieStore = cookies()
+  const id = cookieStore.get('userdata')
+
+
+
+
+  const coursedata: any = course.data.filter((item: any) => item.userId == id?.value)
 
 
   return (
     <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
       <h2 className="mt-10 mb-4 sm:text-[30px] text-[24px] font-bold leading-8">Instructor Dashboard</h2>
       <h2 className="mt-2 mb-4 text-gray-500 sm:text-[21px] text-[18px] font-bold leading-8">Course</h2>
-      <InstructorWrapper courses={Courses} />
-      
+
+      <Suspense fallback={<p>Loading course...</p>}>
+        <InstructorWrapper courses={course.data} />
+      </Suspense> 
+
     </div>
   );
 };

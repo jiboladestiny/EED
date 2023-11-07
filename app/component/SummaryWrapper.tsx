@@ -8,13 +8,19 @@ import error from '../../public/icons/error.png'
 import Image from 'next/image';
 import SummaryTable from './SummaryTable';
 import Vedio from './Vedio';
+import axios from 'axios';
 
 interface Summary {
-  id?: number | undefined;
-  courseId?: number | undefined;
+  _id?: number | undefined;
+  courseId?: string | undefined;
   outline: string;
   vedio?: string | undefined;
   description: string;
+}
+
+interface SummaryWrapperProps {
+  summary: Summary[];
+  summaryid: string;
 }
 
 interface FormInput {
@@ -45,18 +51,18 @@ const reducer = (state: State, action: Action): State => {
     case 'UPDATE_USER':
 
       const updatedUsers = state.summary.map(course =>
-        course.id === action.payload.id ? action.payload : course
+        course._id === action.payload._id ? action.payload : course
       );
       return { ...state, summary: updatedUsers };
     case 'DELETE_USER':
-      return { ...state, summary: state.summary.filter(course => course.id !== action.payload) };
+      return { ...state, summary: state.summary.filter(course => course._id !== action.payload) };
     default:
       return state;
   }
 };
 
 
-const SummaryWrapper = ({ summary }: SummaryProps) => {
+const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
   const [userState, dispatch] = useReducer(reducer, { summary });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [plus, setPlus] = useState(true)
@@ -79,16 +85,25 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
     return formData;
   };
 
+  const showVedio = (vedio: string | undefined) => {
+    toggleModal()
+    setShowVedioModal(true)
+    setEditImageFile(vedio)
+  }
+
+  const toggleModal = () => {
+    setIsModalOpen(prev => !prev);
+    setEditImageFile(undefined)
+  };
+
+
 
   const onEdit = (data: Summary) => {
-    // setSelectedImageFile(undefined)
-    // console.log(course)
     setDeleteModal(false)
     setShowVedioModal(false)
     setEditedCourse(data);
     setEditMode(true);
     reset({ outline: data.outline, description: data.description });
-    // setEditImageFile(data.vedio)
     toggleModal();
   };
 
@@ -100,7 +115,6 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
 
 
   const onDelete = (courseId: number) => {
-    console.log(courseId)
     setDeleteModal(true)
     setDeleteId(courseId)
     toggleModal()
@@ -110,26 +124,25 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
 
   const deleteUser = async () => {
     setLoading(true);
-    setTimeout(() => {
-      dispatch({ type: 'DELETE_USER', payload: deleteid });
-      setLoading(false);
-      toggleModal();
-      reset();
-      toast.success("Content Delete successfully")
-      setDeleteModal(false)
-    }, 2000)
+    try {
+      const res: any = await axios.delete(`${process.env.BASE_URL}/api/summary/${deleteid}`)
+      if (res.status === 200) {
+        dispatch({ type: 'DELETE_USER', payload: deleteid });
+        setLoading(false);
+        toggleModal();
+        reset();
+        toast.success("Content Delete successfully")
+        setDeleteModal(false)
+      }
+    } catch (error: any) {
+      setLoading(false)
+      console.log(error)
+      toast.error(error.response.data.error);
+    }
 
-  };
 
-  const showVedio = (vedio: string | undefined) => {
-    toggleModal()
-    setShowVedioModal(true)
-    setEditImageFile(vedio)
-  }
 
-  const toggleModal = () => {
-    setIsModalOpen(prev => !prev);
-    setEditImageFile(undefined)
+
   };
 
 
@@ -147,32 +160,45 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
           if (response.ok) {
             const res = await response.json();
             const { url } = res
-            const updatedUser: Summary = { ...editedCourse!, vedio: url, ...data };
+            toast.success("Vedio uploaded successfully")
+
+            const secondresponse = await axios.put(`${process.env.BASE_URL}/api/summary`, { ...editedCourse!, vedio: url, ...data });
+            if (secondresponse.status === 200) {
+              const updatedUser: Summary = { ...editedCourse!, vedio: url, ...data };
+              updateCourse(updatedUser);
+              setEditMode(false);
+              setLoading(false);
+              toggleModal();
+              reset()
+              toast.success("Content Updated successfully")
+            }
+
+          }
+        } catch (error: any) {
+          console.log(error)
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+
+      } else {
+        try {
+          const secondresponse = await axios.put(`${process.env.BASE_URL}/api/summary`, { ...editedCourse, ...data });
+          if (secondresponse.status === 200) {
+            const updatedUser: Summary = { ...editedCourse, ...data };
             updateCourse(updatedUser);
             setEditMode(false);
             setLoading(false);
             toggleModal();
             reset()
             toast.success("Content Updated successfully")
-          } else {
-            throw new Error('Image upload failed');
+
           }
         } catch (error) {
-          console.error('Error uploading image:', error);
-          return undefined;
+
         }
 
-      } else {
-        const updatedUser: Summary = { ...editedCourse, ...data };
-        setTimeout(() => {
-          updateCourse(updatedUser);
-          setEditMode(false);
-          setLoading(false);
-          toggleModal();
-          reset()
-          toast.success("Content Updated successfully")
 
-        }, 2000);
+
       }
 
     } else {
@@ -189,21 +215,23 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
         if (response.ok) {
           const res = await response.json();
           const { url } = res
+          toast.success("Vedio added successfully")
 
-          const newUser: Summary = { ...data, vedio: url, id: userState.summary.length + 1 };
+          const secondresponse = await axios.post(`${process.env.BASE_URL}/api/summary`, { ...data, vedio: url, courseId: summaryid });
+          if (secondresponse.status === 200) {
+            const newUser: Summary = { ...data, vedio: url, _id: userState.summary.length + 1 };
+            dispatch({ type: 'ADD_USER', payload: newUser });
+            setPlus(true);
+            setLoading(false);
+            toggleModal();
+            reset();
+            toast.success("Content added successfully")
+          }
 
-          dispatch({ type: 'ADD_USER', payload: newUser });
-          setPlus(true);
-          setLoading(false);
-          toggleModal();
-          reset();
-          toast.success("Content added successfully")
-        } else {
-          throw new Error('Vedio upload failed');
         }
-      } catch (error) {
-        console.error('Error uploading image:', error);
-        return undefined;
+      } catch (error: any) {
+        setLoading(false)
+        toast.error(error.response.data.error);
       }
     }
   };
@@ -258,7 +286,7 @@ const SummaryWrapper = ({ summary }: SummaryProps) => {
               <div className="">
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Image</span>
+                    <span className="label-text">Vedio</span>
                   </label>
 
                   <input onChange={(e) => {

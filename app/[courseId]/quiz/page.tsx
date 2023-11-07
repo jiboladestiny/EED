@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import Quiz from "../../datas/Quiz"
-import Button from '@/app/component/Button'
+import Button from '../../component/Button'
 
 interface Params {
     params: {

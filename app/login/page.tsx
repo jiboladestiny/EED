@@ -7,12 +7,18 @@ import image from "/public/images/auth.jpeg"
 import { useState } from "react";
 import Button from "../component/Button";
 import axios from "axios";
+import { Data } from "../context/DataProvider";
+import userData from "@/helpers/userData";
+import Cookies from 'js-cookie';
 interface IFormInput {
   email: string
   password: string
 }
 
 const Login = () => {
+  const { setUserData } = Data()
+
+
 
   const router = useRouter();
   const [loading, setLoading] = useState(false)
@@ -33,6 +39,12 @@ const Login = () => {
       toast.error(error.response.data.error);
     } finally {
       setLoading(false)
+      const datas = await userData()
+      setUserData(datas.data)
+      Cookies.set('role', datas.data.isAdmin, { expires: 7 });
+      Cookies.set('userdata', datas.data._id, { expires: 7 });
+
+      console.log(datas)
     }
   }
 
