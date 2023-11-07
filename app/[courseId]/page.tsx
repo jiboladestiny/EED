@@ -2,6 +2,8 @@ import React from "react";
 import Button from "../component/Button";
 import Courses from "../datas/Courses";
 import Summary from "../datas/Summary";
+import courseData from "@/helpers/getAllCourse";
+import summaryData from "@/helpers/getAllSummary";
 import Link from "next/link";
 
 type Params = {
@@ -10,9 +12,11 @@ type Params = {
   }
 }
 
-const Page = ({ params: { courseId } }: Params) => {
-  const data = Courses.filter((item) => item._id === parseInt(courseId));
-  const summary = Summary.filter((item) => item.courseId === parseInt(courseId));
+const Page = async ({ params: { courseId } }: Params) => {
+  const course = await courseData();
+  const summarydata = await summaryData();
+  const data = course.data.filter((item:any) => item._id === courseId);
+  const summary = summarydata.data.filter((item:any) => item.courseId === courseId);
   return (
     <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
       <div
@@ -45,7 +49,7 @@ const Page = ({ params: { courseId } }: Params) => {
 
 
 
-        {summary.map((item) => {
+        {summary.map((item:any) => {
           return (
             <div key={item.id} className="collapse collapse-plus bg-gray-100">
               <input type="radio" name="my-accordion-3" />
