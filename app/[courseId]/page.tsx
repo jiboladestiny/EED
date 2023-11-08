@@ -1,10 +1,10 @@
 import React from "react";
 import Button from "../component/Button";
-import Courses from "../datas/Courses";
-import Summary from "../datas/Summary";
 import courseData from "@/helpers/getAllCourse";
 import summaryData from "@/helpers/getAllSummary";
+import enrolledCourseData from "@/helpers/getAllEnrolledCourse";
 import Link from "next/link";
+import { cookies } from 'next/headers'
 
 type Params = {
   params: {
@@ -15,8 +15,21 @@ type Params = {
 const Page = async ({ params: { courseId } }: Params) => {
   const course = await courseData();
   const summarydata = await summaryData();
-  const data = course.data.filter((item:any) => item._id === courseId);
+  const enrolled = await enrolledCourseData();
+  const cookieStore = cookies()
+  const userid: any = cookieStore.get('userdata')
+  const data = course.data.filter((item: any) => item._id === courseId);
+  const enrolleddata = enrolled.data.filter((item: any) => item.userId === userid.value);
+  
   const summary = summarydata.data.filter((item:any) => item.courseId === courseId);
+  
+  const userenrollinfo = {
+    userId: userid.value,
+    courseId: courseId
+  }
+
+
+
   return (
     <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
       <div
@@ -41,6 +54,10 @@ const Page = async ({ params: { courseId } }: Params) => {
       <div className="md:px-[2rem] mt-[3.5rem]">
 
         <h2 className="text-[25px] font-semibold mb-[1rem]">Course Summary:</h2>
+
+        {/* {JSON.stringify(userenrollinfo)}
+        {JSON.stringify(enrolleddata)} */}
+
         <p>{data[0].description}</p>
         <h2 className="text-[25px] font-semibold mt-[3.5rem] mb-[1rem]">
           What you will learn in this course:
