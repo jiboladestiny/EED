@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../component/Button";
 import courseData from "@/helpers/getAllCourse";
 import summaryData from "@/helpers/getAllSummary";
 import enrolledCourseData from "@/helpers/getAllEnrolledCourse";
-import Link from "next/link";
+import userData from "@/helpers/getAllUsers";
 import { cookies } from 'next/headers'
+import CourseButton from "../component/CourseButton";
 
 type Params = {
   params: {
@@ -16,13 +17,21 @@ const Page = async ({ params: { courseId } }: Params) => {
   const course = await courseData();
   const summarydata = await summaryData();
   const enrolled = await enrolledCourseData();
+  const user = await userData();
   const cookieStore = cookies()
   const userid: any = cookieStore.get('userdata')
-  const data = course.data.filter((item: any) => item._id === courseId);
-  const enrolleddata = enrolled.data.filter((item: any) => item.userId === userid.value);
-  
-  const summary = summarydata.data.filter((item:any) => item.courseId === courseId);
-  
+  const data =  course.data.filter((item: any) => item._id === courseId);
+  const summary =  summarydata.data.filter((item:any) => item.courseId === courseId);
+
+  const enrolleddata =  enrolled.data.filter((item: any) => item.userId === userid.value);
+  const ifcourse = enrolleddata.filter((item: any) => item.courseId === courseId);
+
+  const hasValues = ifcourse.length > 0;
+
+  const instructor = user.data.filter((item: any) =>
+    course.data.some((userItem: any) => item._id === userItem.userId)
+  );
+
   const userenrollinfo = {
     userId: userid.value,
     courseId: courseId
@@ -46,7 +55,7 @@ const Page = async ({ params: { courseId } }: Params) => {
               {data[0].title}
             </h2>
 
-            <Button>{data[0].instructor}</Button>
+            <Button>{instructor[0].name}</Button>
           </div>
         </div>
       </div>
@@ -54,9 +63,6 @@ const Page = async ({ params: { courseId } }: Params) => {
       <div className="md:px-[2rem] mt-[3.5rem]">
 
         <h2 className="text-[25px] font-semibold mb-[1rem]">Course Summary:</h2>
-
-        {/* {JSON.stringify(userenrollinfo)}
-        {JSON.stringify(enrolleddata)} */}
 
         <p>{data[0].description}</p>
         <h2 className="text-[25px] font-semibold mt-[3.5rem] mb-[1rem]">
@@ -82,7 +88,7 @@ const Page = async ({ params: { courseId } }: Params) => {
 
 
         <div className="mt-[3rem]"></div>
-        <Link href={`/login`}><Button>Take Course</Button></Link>
+        <CourseButton courseId={userenrollinfo} hasValues={hasValues} />
       </div>
     </div>
   );

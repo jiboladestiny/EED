@@ -1,8 +1,9 @@
-'use client'
+
 import Button from '../../component/Button'
 import Vedio from '../../component/Vedio'
 // import Section from '@/app/component/Section'
-import Summary from '@/app/datas/Summary'
+// import Summary from '@/app/datas/Summary'
+import summaryData from '@/helpers/getAllSummary'
 import Link from 'next/link'
 // import next from 'next/types'
 // import { nextTick } from 'process'
@@ -17,17 +18,17 @@ type Params = {
     }
 }
 
-const page = ({ params: { courseId, sumId } }: Params) => {
-
-    const course = Summary.filter((item) => item.courseId === parseInt(courseId));
-    const index = course.findIndex((item) => item.id === parseInt(sumId));
-    const summary = course.filter((item) => item.id === parseInt(sumId));
+const page = async ({ params: { courseId, sumId } }: Params) => {
+    const sumdata = await summaryData()
+    const course = sumdata.data.filter((item:any) => item.courseId === courseId);
+    const index = course.findIndex((item:any) => item._id === sumId);
+    const summary = course.filter((item:any) => item._id === sumId);
 
     const prevIndex = index - 1;
     const nextIndex = index + 1;
 
-    const prevdata = prevIndex >= 0 ? course[prevIndex].id : false;
-    const nextdata = nextIndex < course.length ? course[nextIndex].id : false;
+    const prevdata = prevIndex >= 0 ? course[prevIndex].node_modulesid : false;
+    const nextdata = nextIndex < course.length ? course[nextIndex]._id : false;
 
     const isFirstCourse = index === 0;
     const isLastCourse = index === course.length - 1;
@@ -38,7 +39,7 @@ const page = ({ params: { courseId, sumId } }: Params) => {
 
         <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
 
-            <h2 className="mt-10 mb-4 sm:text-[34px] text-[28px] font-bold leading-8">{summary[0].outline}</h2>
+          <h2 className="mt-10 mb-4 sm:text-[34px] text-[28px] font-bold leading-8">{summary[0].outline}</h2>
 
             <p className='mb-[3rem]'>{summary[0].description}</p>
 
@@ -68,7 +69,7 @@ const page = ({ params: { courseId, sumId } }: Params) => {
                 {isLastCourse && (
                     <Link href={`/${courseId}/quiz`}><Button>Take Assestment</Button></Link>
                 )}
-            </div>
+            </div>  
 
         </div>
 

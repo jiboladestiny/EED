@@ -27,11 +27,9 @@ export default function RootLayout({
         type="text/javascript"
         src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></Script>
       <body className={inter.className}>
-        <DataProvider>
-          
+        <DataProvider>         
           <ToasterContext />
           <Navbar />
-
           {children}
           <Footer />
         </DataProvider>

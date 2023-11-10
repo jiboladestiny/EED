@@ -11,9 +11,6 @@ interface UseHttpRequestResponse {
 
 const useHttpRequest = (): UseHttpRequestResponse => {
     const [loading, setLoading] = useState<boolean>(false);
-
-
-
     const makeRequest = async (config: AxiosRequestConfig, successMessage: string): Promise<boolean> => {
         try {
             setLoading(true);
