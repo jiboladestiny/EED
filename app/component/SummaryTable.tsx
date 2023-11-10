@@ -12,18 +12,7 @@ interface TableProps {
 }
 
 const SummaryTable: React.FC<TableProps> = ({ summary, onEdit, onDelete, onShowVedio }) => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
     return (
         <div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -62,9 +51,9 @@ const SummaryTable: React.FC<TableProps> = ({ summary, onEdit, onDelete, onShowV
                                     {data._id}
                                 </td>
                                 <td className="px-6 py-5">{data.outline}</td>
-                                <td className="px-6 py-5 md:w-auto">{isMobile
-                                    ? data.description.substring(0, 30)
-                                    : data.description.substring(0, 150)}...</td>
+                                <td className="px-6 py-5 md:w-auto">{
+                                data.description.substring(0, 30)}
+                              </td>
                                 <td className="px-6 py-5">
                                     <button
 
