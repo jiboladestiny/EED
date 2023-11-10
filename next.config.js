@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    BASE_URL: "http://localhost:3000",
+    BASE_URL: "https://eed-six.vercel.app",
   },
   images: {
     domains: ["res.cloudinary.com"],

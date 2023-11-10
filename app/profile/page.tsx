@@ -1,14 +1,10 @@
 "use client"
-import userData from "@/helpers/userData";
-import axios from "axios";
 import { Data } from "../context/DataProvider";
 import Cookies from 'js-cookie';
 
 const Profile = () => {
     const { data } = Data()
     const role = Cookies.get('role');
-
-    // console.log(role)
 
     return (
         <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
@@ -28,6 +24,7 @@ const Profile = () => {
 
                             placeholder="Name"
                             className="input input-bordered w-full max-w-sm"
+                            value={data?.name}
                             disabled
                         />
                     </div>
@@ -41,6 +38,7 @@ const Profile = () => {
                             type="email"
                             placeholder="Email"
                             className="input input-bordered w-full max-w-sm"
+                            value={data?.email}
                             disabled
                         />
                     </div>
@@ -54,19 +52,19 @@ const Profile = () => {
                             type="text"
                             placeholder="role"
                             className="input input-bordered w-full max-w-sm"
+                            value={data?.isAdmin == "1"
+                                ? "USER"
+                                : data?.isAdmin == "2"
+                                    ? "ADMIN"
+                                    : data?.isAdmin == "3"
+                                        ? "INSTRUCTOR"
+                                        : data?.isAdmin}
                             disabled
                         />
                     </div>
 
 
                 </form>
-
-                <button onClick={() => {
-                    const role = Cookies.get('role');
-                    console.log(data?.name)
-                    // console.log(role)
-                    // console.log("1" == data?.isAdmin)
-                }}>Check</button>
             </div>
         </div>
     )

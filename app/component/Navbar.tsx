@@ -2,8 +2,6 @@
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-// import menu from "../asset/icon//hamburger.svg";
-// import menucancel from "../asset/icon/icons8-cancel.svg";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 

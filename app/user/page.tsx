@@ -1,7 +1,5 @@
 import React from 'react';
-import Courses from '../datas/Courses';
 import Link from 'next/link';
-import Summary from '../datas/Summary';
 import arrowright from '../../public/icons/arrrowright.png'
 import Image from 'next/image';
 import courseData from '@/helpers/getAllCourse';
@@ -34,7 +32,6 @@ const Page: React.FC = async () => {
     <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
       <h2 className="mt-10 mb-4 sm:text-[30px] text-[24px] font-bold leading-8">User Dashboard</h2>
       <h2 className="mt-2 mb-4 text-gray-500 sm:text-[21px] text-[18px] font-bold leading-8">Course</h2>
-      {JSON.stringify(enrolledCourses)}
       <ul className='quiz mb-[5rem]' >
         {enrolledCourses.map((course: Course) => {
           const courseSummary = summarydata.data.find((item: any) => item.courseId === course._id);
