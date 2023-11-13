@@ -144,7 +144,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
   const deleteUser = async () => {
     const requestConfig = {
       method: "delete",
-      url: `${process.env.BASE_URL}/api/user/${deleteid}`,
+      url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/user/${deleteid}`,
     };
     const successMessage = "User Delete successfully";
 

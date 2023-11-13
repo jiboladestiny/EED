@@ -19,7 +19,8 @@ export default async function Home() {
       <p className="">Choose from the following vocational skills</p>
 
       <div className="grid md:grid-cols-3 grid-cols-1  mt-10 gap-[2rem]">
-       <Suspense fallback={<p>Course loading</p>}>
+    
+        <Suspense fallback={<p>Course loading</p>}>
           {course.data.map((item: Item) => {
             return (
 
@@ -27,7 +28,7 @@ export default async function Home() {
 
             );
           })}
-       </Suspense>
+        </Suspense>
 
         <div className="flex flex-row gap-2 text-[14px] mt-[1rem]">
           <Link href={`/admin`}><span className='font-medium text-green-600 dark:text-green-500 hover:underline'>Admin dashboard</span></Link> <br />

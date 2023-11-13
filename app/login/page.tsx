@@ -26,30 +26,29 @@ const Login = () => {
 
   const { register, handleSubmit } = useForm<IFormInput>()
 
-
-
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setLoading(true);
+
     try {
-      setLoading(true)
-      const res = await axios.post("api/login", data)
-      // console.log(res.data.message)
+      const res = await axios.post("api/login", data);
+ 
       toast.success(res.data.message);
       router.push("/user");
-    } catch (error: any) {
-      console.log(error)
-      toast.error(error.response.data.error);
-    } finally {
-      setLoading(false)
-      const datas = await userData()
-      setUserData(datas.data)
+
+      const datas = await userData();
+
+      setUserData(datas.data);
       Cookies.set('role', datas.data.isAdmin, { expires: 7 });
       Cookies.set('userdata', datas.data._id, { expires: 7 });
+      setLoading(false);
+      
+    } catch (error: any) {
+      setLoading(false);
+      toast.error(error.response?.data?.error || "An error occurred during login. Please try again.");
+    } 
+  };
 
-      console.log(datas)
-    }
-  }
-
-
+ 
 
   return (
     <div

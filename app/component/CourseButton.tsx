@@ -27,8 +27,6 @@ function CourseButton({ hasValues, courseId }: ButtonProps) {
         const success = await makeRequest(requestConfig, successMessage);
         if (success) {
             setShow(true)
-            router.push("/user");
-
         }
 
 

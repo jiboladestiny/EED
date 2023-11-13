@@ -59,6 +59,40 @@ export async function GET() {
 }
 
 
+export async function PUT(request: NextRequest) {
+    try {
+        const reqBody = await request.json();
+        const { _id, isStarted } = reqBody;
+
+        // Check if the user with the given ID exists
+        const enroll = await Enrolled.findById(_id);
+
+        if (!enroll) {
+            return NextResponse.json({
+                message: "Id not found",
+            }, { status: 404 });
+        }
+
+        // Update user information without changing the password
+        enroll.isStarted = isStarted || enroll.isStarted;
+
+
+
+        const updatedUser = await enroll.save();
+
+        return NextResponse.json({
+            message: "Course has started",
+            success: true,
+            updatedUser
+        });
+    } catch (error: any) {
+        return NextResponse.json({
+            error: error.message
+        }, { status: 500 });
+    }
+}
+
+
 
 
 

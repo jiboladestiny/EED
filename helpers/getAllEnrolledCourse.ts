@@ -2,12 +2,11 @@ import axios from "axios";
 
 const enrolledCourseData = async () => {
     try {
-        const res = await axios.get(`${process.env.BASE_URL}/api/enroll`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_DOMAIN}/api/enroll`);
         return res.data;
     } catch (error) {
 
-        console.error("Error fetching course data:", error);
-        return null;
+        throw new Error("failed to fetchdata");
     }
 };
 

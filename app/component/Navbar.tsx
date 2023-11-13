@@ -4,12 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { Data } from "../context/DataProvider";
+
 
 
 const Navbar = () => {
   const avatar = false
   const pathname = usePathname()
   const router = useRouter()
+  const { data } = Data()
+  const getInitials = (name: string | undefined) => {
+    if (!name) return "";
+
+    const words = name.split(" ");
+    const initials = words.map((word) => word[0]).join("");
+
+    return initials;
+  };
+
+  // Usage:
+  const initials = getInitials(data?.name);
+
 
   if (pathname === "/register" || pathname === "/login") {
     return
@@ -48,8 +63,8 @@ const Navbar = () => {
             ) : (
               <div className="avatar placeholder">
                 <div className="bg-base-100 text-neutral rounded-full w-12">
-                  <span>AJ</span>
-                </div>x
+                    <span>{initials}</span>
+                </div>
               </div>
             )}
           </label>
@@ -60,6 +75,12 @@ const Navbar = () => {
             <li>
               <Link href="/profile"> Profile</Link>
             </li>
+          
+            {data?.isAdmin == "1" && <li> <Link href="/user">User dashboard</Link>      </li>}
+            {data?.isAdmin == "2" && <li><Link href="/admin">Admin dashboard</Link>      </li>}
+            {data?.isAdmin == "3" && <li> <Link href="/admin/instructor">Instructor dashboard</Link>      </li>}
+             
+      
 
             <li onClick={logout}>
               <a>Logout</a>

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const summaryData = async () => {
     try {
-        const res = await axios.get(`${process.env.BASE_URL}/api/summary`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`);
         return res.data;
     } catch (error) {
 

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const userData = async () => {
     try {
-        const res = await axios.get(`${process.env.BASE_URL}/api/user`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_DOMAIN}/api/user`);
         return res.data;
     } catch (error) {
    
