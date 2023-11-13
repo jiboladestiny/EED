@@ -19,7 +19,7 @@ const page = async () => {
 
 
 
-  const coursedata: any = course.data.filter((item: any) => item.userId == id?.value)
+  const coursedata: any = course.data.filter((item: any) => item.userId === id?.value)
 
 
   return (
@@ -28,7 +28,7 @@ const page = async () => {
       <h2 className="mt-2 mb-4 text-gray-500 sm:text-[21px] text-[18px] font-bold leading-8">Course</h2>
 
       <Suspense fallback={<p>Loading course...</p>}>
-        <InstructorWrapper courses={course.data} />
+        <InstructorWrapper courses={coursedata} />
       </Suspense> 
 
     </div>
