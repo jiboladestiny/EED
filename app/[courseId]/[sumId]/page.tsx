@@ -1,12 +1,10 @@
 
 import Button from '../../component/Button'
 import Vedio from '../../component/Vedio'
-// import Section from '@/app/component/Section'
-// import Summary from '@/app/datas/Summary'
+
 import summaryData from '@/helpers/getAllSummary'
 import Link from 'next/link'
-// import next from 'next/types'
-// import { nextTick } from 'process'
+
 
 import React from 'react'
 
