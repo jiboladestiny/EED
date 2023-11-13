@@ -9,8 +9,8 @@ interface User {
 
 interface TableProps {
   users: User[];
-  onEdit: (user: User) => void;   // Prop for editing user
-  onDelete: (userId: number) => void; // Prop for deleting user
+  onEdit: (user: User) => void;  
+  onDelete: (userId: number) => void; 
 }
 
 const Table: React.FC<TableProps> = ({ users, onEdit, onDelete }) => {
