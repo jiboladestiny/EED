@@ -19,8 +19,6 @@ interface IFormInput {
 const Login = () => {
   const { setUserData } = Data()
 
-
-
   const router = useRouter();
   const [loading, setLoading] = useState(false)
 
@@ -32,15 +30,32 @@ const Login = () => {
     try {
       const res = await axios.post("api/login", data);
  
-      toast.success(res.data.message);
-      router.push("/user");
+      if(res.status == 200){
+      
+        toast.success(res.data.message);
+       
 
-      const datas = await userData();
+        const datas = await userData();
 
-      setUserData(datas.data);
-      Cookies.set('role', datas.data.isAdmin, { expires: 7 });
-      Cookies.set('userdata', datas.data._id, { expires: 7 });
-      setLoading(false);
+        setUserData(datas.data);
+        Cookies.set('role', datas.data.isAdmin, { expires: 7 });
+        Cookies.set('userdata', datas.data._id, { expires: 7 });
+
+       const role = Cookies.get('role')
+        if (role == "1") {
+          router.push("/user");
+        }
+
+        if (role == "3") {
+          router.push("/admin/instructor");
+        }
+
+        if (role == "2") {
+          router.push("/admin");
+        }
+       
+        setLoading(false);
+      }
       
     } catch (error: any) {
       setLoading(false);
