@@ -1,14 +1,8 @@
-import axios from "axios";
 
 const summaryData = async () => {
-    try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`);
-        return res.data;
-    } catch (error) {
-
-        console.error("Error fetching course quiz:", error);
-        return null;
-    }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`);
+        if (!res.ok) throw new Error("failed to fetchdata");
+        return res.json();
 };
 
 export default summaryData;

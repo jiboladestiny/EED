@@ -1,14 +1,9 @@
-import axios from "axios";
 
 const userData = async () => {
-    try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_DOMAIN}/api/user`);
-        return res.data;
-    } catch (error) {
-   
-        console.error("Error fetching user data:", error);
-        return null; 
-    }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/user`);
+        if (!res.ok) throw new Error("failed to fetchdata");
+        return res.json();
 };
 
 export default userData;

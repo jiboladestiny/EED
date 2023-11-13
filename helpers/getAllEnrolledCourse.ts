@@ -1,4 +1,3 @@
-import axios from "axios";
 
 const enrolledCourseData = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/enroll`)
