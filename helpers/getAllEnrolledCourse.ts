@@ -1,13 +1,9 @@
 import axios from "axios";
 
 const enrolledCourseData = async () => {
-    try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_DOMAIN}/api/enroll`);
-        return res.data;
-    } catch (error) {
-
-        throw new Error("failed to fetchdata");
-    }
+    const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/enroll`)
+    if (!res.ok) throw new Error("failed to fetchdata");
+    return res.json();  
 };
 
 export default enrolledCourseData;
