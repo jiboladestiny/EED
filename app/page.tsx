@@ -30,10 +30,7 @@ export default async function Home() {
           })}
         </Suspense>
 
-        <div className="flex flex-row gap-2 text-[14px] mt-[1rem]">
-          <Link href={`/admin`}><span className='font-medium text-green-600 dark:text-green-500 hover:underline'>Admin dashboard</span></Link> <br />
-          <Link href={`/admin/instructor`}><span className='font-medium text-green-600 dark:text-green-500 hover:underline'>Instructor dashboard</span></Link>
-        </div>
+     
       </div>
     </main>
   );
