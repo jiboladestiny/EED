@@ -36,22 +36,6 @@ const Register = () => {
 
   };
 
-  // const registerUser = async (e) => {
-  //   e.preventDefault();
-
-  //     router.push("/");
-
-  // axios
-  //   .post("/api/register", data)
-  //   .then(() => toast.success("User has been registered!"))
-  //   .catch(() => toast.error("Something went wrong!"));
-  // };
-
-  // useEffect(() => {
-  //   if (session?.status === "authenticated") {
-  //     router.push("/");
-  //   }
-  // });
 
   return (
     <div
