@@ -18,7 +18,7 @@ function CourseButton({ hasValues, courseId }: ButtonProps) {
     const enroll = async () => {
         const requestConfig = {
             method: 'post',
-            url: `${process.env.BASE_URL}/api/enroll`,
+            url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/enroll`,
             data: courseId
         };
 

@@ -25,7 +25,7 @@ const page = async ({ params: { courseId, sumId } }: Params) => {
     const prevIndex = index - 1;
     const nextIndex = index + 1;
 
-    const prevdata = prevIndex >= 0 ? course[prevIndex].node_modulesid : false;
+    const prevdata = prevIndex >= 0 ? course[prevIndex]._id : false;
     const nextdata = nextIndex < course.length ? course[nextIndex]._id : false;
 
     const isFirstCourse = index === 0;

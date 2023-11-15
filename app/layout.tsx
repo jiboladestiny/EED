@@ -7,7 +7,7 @@ import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import Footer from './component/Footer'
 import DataProvider from '@/app/context/DataProvider'
-
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +27,22 @@ export default function RootLayout({
         type="text/javascript"
         src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></Script>
       <body className={inter.className}>
-        <DataProvider>         
+        <DataProvider>  
+          <NextTopLoader
+            color="red"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={5}
+            crawl={true}
+            showSpinner={true}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+            template='<div class="bar" role="bar"><div class="peg"></div></div> 
+  <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+            zIndex={5000}
+            showAtBottom={false}
+          />     
           <ToasterContext />
           <Navbar />
           {children}

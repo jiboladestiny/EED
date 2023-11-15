@@ -26,35 +26,36 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true);
+    console.log("running")
 
     try {
       const res = await axios.post("api/login", data);
  
-      if(res.status == 200){
-      
-        toast.success(res.data.message);
-       
-
+      if(res.status == 200){ 
         const datas = await userData();
-
         setUserData(datas.data);
         Cookies.set('role', datas.data.isAdmin, { expires: 7 });
         Cookies.set('userdata', datas.data._id, { expires: 7 });
 
        const role = Cookies.get('role')
+        toast.success(res.data.message);
+
         if (role == "1") {
           router.push("/user");
+          setLoading(false);
         }
 
         if (role == "3") {
           router.push("/admin/instructor");
+          setLoading(false);
         }
 
         if (role == "2") {
           router.push("/admin");
+          setLoading(false);
         }
        
-        setLoading(false);
+  
       }
       
     } catch (error: any) {

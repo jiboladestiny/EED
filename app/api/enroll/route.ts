@@ -9,31 +9,31 @@ export async function POST(request: NextRequest) {
         const reqBody = await request.json();
         const { userId, courseId } = reqBody;
 
+        // Check if user is already enrolled in the course
+        const existingEnrollment = await Enrolled.findOne({ userId, courseId });
 
-        // check if user exist
-        const course = await Enrolled.findOne({ courseId })
-
-        if (course) {
+        if (existingEnrollment) {
             return NextResponse.json({
-                error: "Course already exist"
-            }, { status: 400 })
+                error: "User is already enrolled in this course",
+            }, { status: 400 });
         }
 
+        // If not enrolled, create a new enrollment
         const enrolledCourse = new Enrolled({
             courseId,
-            userId
+            userId,
         });
 
         const savedCourse = await enrolledCourse.save();
 
         return NextResponse.json({
-            message: "Course Enrolled successfully",
+            message: "Course enrolled successfully",
             success: true,
-            enrolledCourse
+            savedCourse,
         });
     } catch (error: any) {
         return NextResponse.json({
-            error: error.message
+            error: error.message,
         }, { status: 500 });
     }
 }
