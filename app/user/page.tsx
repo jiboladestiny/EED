@@ -1,6 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+
 import courseData from '@/helpers/getAllCourse';
 import summaryData from '@/helpers/getAllSummary';
 import enrolledCourseData from '@/helpers/getAllEnrolledCourse';

@@ -1,5 +1,4 @@
 import QuizWrapper from '@/app/component/QuizWrapper'
-import Quiz from '@/app/datas/Quiz'
 import quizData from '@/helpers/getAllQuiz'
 import { Suspense } from 'react'
 

@@ -1,8 +1,7 @@
 
-import Courses from "./datas/Courses";
+
 import CourseCard from "./component/CourseCard";
 import courseData from "@/helpers/getAllCourse";
-import Link from "next/link";
 import { Suspense } from "react";
 
 interface Item {

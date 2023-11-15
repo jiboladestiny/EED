@@ -2,14 +2,11 @@
 
 import InstructorWrapper from "@/app/component/InstructorWrapper";
 import courseData from "@/helpers/getAllCourse";
-import Courses from "@/app/datas/Courses";
+
 import { Suspense } from "react";
-import { Data } from "../../context/DataProvider";
-import Cookies from 'js-cookie';
+
 import { cookies } from 'next/headers'
 
-// import getAllUsers from "@/app/libs/getAllUsers";
-// import ClientWrapper from "@/app/component/ClientWrapper";
 
 const page = async () => {
   const course  = await courseData()

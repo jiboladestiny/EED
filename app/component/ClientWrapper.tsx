@@ -4,10 +4,8 @@ import Table from "./Table";
 import Button from "./Button";
 import Modal from "./Modal";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import Image from "next/image";
 import error from '../../public/icons/error.png'
-import axios from "axios";
 import useHttpRequest from "@/helpers/useHttpRequest";
 
 interface User {

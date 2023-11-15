@@ -1,11 +1,9 @@
 
 import ClientWrapper from '../component/ClientWrapper';
 import userData from '@/helpers/getAllUsers';
-import Users from '../datas/Users'
 import { Suspense } from 'react';
 
 const page = async () => {
-  // const userData: Promise = userData()
   const users = await userData();
   return <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
     <h2 className="mt-10 mb-4 sm:text-[30px] text-[24px] font-bold leading-8">Admin Dashboard</h2>

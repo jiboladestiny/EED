@@ -2,7 +2,7 @@
 import React, { useReducer, useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
-import { useForm, SubmitHandler, Form } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
 import error from '/public/icons/error.png'

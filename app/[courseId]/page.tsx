@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Button from "../component/Button";
 import courseData from "@/helpers/getAllCourse";
 import summaryData from "@/helpers/getAllSummary";

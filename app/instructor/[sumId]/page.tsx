@@ -1,5 +1,5 @@
 import SummaryWrapper from "@/app/component/SummaryWrapper";
-import Summary from "@/app/datas/Summary";
+
 import summaryData from "@/helpers/getAllSummary";
 
 
