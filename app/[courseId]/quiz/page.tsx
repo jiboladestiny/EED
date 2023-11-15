@@ -1,8 +1,5 @@
 
-import React, { useState } from 'react'
-import Quiz from "../../datas/Quiz"
 import quizData from '@/helpers/getAllQuiz'
-import Button from '../../component/Button'
 import AssestmentWrapper from '@/app/component/AssestmentWrapper'
 
 interface Params {
