@@ -2,9 +2,8 @@
 
 import InstructorWrapper from "@/app/component/InstructorWrapper";
 import courseData from "@/helpers/getAllCourse";
-import Courses from "@/app/datas/Courses";
 import { Suspense } from "react";
-import { Data } from "../../context/DataProvider";
+import { Data } from "../context/DataProvider";
 import Cookies from 'js-cookie';
 import { cookies } from 'next/headers'
 
