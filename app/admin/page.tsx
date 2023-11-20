@@ -1,7 +1,6 @@
 
 import ClientWrapper from '../component/ClientWrapper';
 import userData from '@/helpers/getAllUsers';
-import Users from '../datas/Users'
 import { Suspense } from 'react';
 
 const page = async () => {
