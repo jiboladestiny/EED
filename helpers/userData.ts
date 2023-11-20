@@ -1,10 +1,12 @@
+import axios from "axios"
 
 const userData = async () => {
-  
-                const res = await fetch('/api/me')
-                if (!res.ok) throw new Error("failed to fetchdata");
-                return res.json();
-}
+        try {
+                const res = await axios.get('/api/me')
+                return res.data
+        } catch (error) {
 
+        }
+}
 
 export default userData
