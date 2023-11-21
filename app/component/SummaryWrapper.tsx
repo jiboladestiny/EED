@@ -9,6 +9,7 @@ import Image from 'next/image';
 import SummaryTable from './SummaryTable';
 import Vedio from './Vedio';
 import axios from 'axios';
+import ProgressBar from './ProgressBar';
 
 interface Summary {
   _id?: number | undefined;
@@ -76,7 +77,8 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
   const [formData, setFormData] = useState<any | null>()
   const [selectedImageFile, setSelectedImageFile] = useState<File | undefined>(undefined);
   const [editImageFile, setEditImageFile] = useState<string | undefined>(undefined);
-  const maxFileSize = 10 * 1024 * 1024; // 10 MB in bytes
+  const maxFileSize = 90 * 1024 * 1024; // 10 MB in bytes
+  const [progress, setProgress] = useState(0);
 
   const createImageFormData = (imageFile: File) => {
     const formData = new FormData();
@@ -152,26 +154,38 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
       setLoading(true);
       if (selectedImageFile) {
         try {
-          const response = await fetch("https://api.cloudinary.com/v1_1/destiny1233/video/upload", {
-            method: 'POST',
-            body: formData,
+          const response = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/video/upload",  formData,{
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            onUploadProgress: (progressEvent:any) => {
+              const progress = (progressEvent.loaded / progressEvent.total) * 50;
+              console.log(progress);
+
+              setProgress(progress);
+            },
+            onDownloadProgress: (progressEvent:any) => {
+              const progress = 50 + (progressEvent.loaded / progressEvent.total) * 50;
+              console.log(progress);
+              setProgress(progress);
+            },
           });
 
-          if (response.ok) {
-            const res = await response.json();
-            const { url } = res
+          if (response.status === 200) {
+            // const res = await response.json();
+            const { url } = response.data
             toast.success("Vedio uploaded successfully")
 
-            const secondresponse = await axios.put(`${process.env.BASE_URL}/api/summary`, { ...editedCourse!, vedio: url, ...data });
-            if (secondresponse.status === 200) {
-              const updatedUser: Summary = { ...editedCourse!, vedio: url, ...data };
-              updateCourse(updatedUser);
-              setEditMode(false);
-              setLoading(false);
-              toggleModal();
-              reset()
-              toast.success("Content Updated successfully")
-            }
+            // const secondresponse = await axios.put(`${process.env.BASE_URL}/api/summary`, { ...editedCourse!, vedio: url, ...data });
+            // if (secondresponse.status === 200) {
+            //   const updatedUser: Summary = { ...editedCourse!, vedio: url, ...data };
+            //   updateCourse(updatedUser);
+            //   setEditMode(false);
+            //   setLoading(false);
+            //   toggleModal();
+            //   reset()
+            //   toast.success("Content Updated successfully")
+            // }
 
           }
         } catch (error: any) {
@@ -191,7 +205,6 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
             toggleModal();
             reset()
             toast.success("Content Updated successfully")
-
           }
         } catch (error) {
 
@@ -207,26 +220,37 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
 
 
       try {
-        const response = await fetch("https://api.cloudinary.com/v1_1/destiny1233/video/upload", {
-          method: 'POST',
-          body: formData,
+        const response = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/video/upload",formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent:any) => {
+            const progress = (progressEvent.loaded / progressEvent.total) * 50;
+        
+            setProgress(progress);
+          },
+          onDownloadProgress: (progressEvent:any) => {
+            const progress = 50 + (progressEvent.loaded / progressEvent.total) * 50;
+    
+            setProgress(progress);
+          },
         });
 
-        if (response.ok) {
-          const res = await response.json();
-          const { url } = res
+        if (response.status === 200) {
+ 
+          const { url } = response.data
           toast.success("Vedio added successfully")
 
-          const secondresponse = await axios.post(`${process.env.BASE_URL}/api/summary`, { ...data, vedio: url, courseId: summaryid });
-          if (secondresponse.status === 200) {
-            const newUser: Summary = { ...data, vedio: url, _id: userState.summary.length + 1 };
-            dispatch({ type: 'ADD_USER', payload: newUser });
-            setPlus(true);
-            setLoading(false);
-            toggleModal();
-            reset();
-            toast.success("Content added successfully")
-          }
+          // const secondresponse = await axios.post(`${process.env.BASE_URL}/api/summary`, { ...data, vedio: url, courseId: summaryid });
+          // if (secondresponse.status === 200) {
+          //   const newUser: Summary = { ...data, vedio: url, _id: userState.summary.length + 1 };
+          //   dispatch({ type: 'ADD_USER', payload: newUser });
+          //   setPlus(true);
+          //   setLoading(false);
+          //   toggleModal();
+          //   reset();
+          //   toast.success("Content added successfully")
+          // }
 
         }
       } catch (error: any) {
@@ -252,6 +276,7 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
       <Button onClick={toggleModal} plus={true}>Add Content</Button>
 
       <Modal clear={cleardatas} isOpen={isModalOpen} toggleModal={toggleModal}>
+        {(progress > 0 && progress < 100) && <ProgressBar progress={progress * 2} />}
         {deletemodal ?
           (<>
             <Image alt="error" src={error} className="mx-auto mb-4" width={48} height={48} />

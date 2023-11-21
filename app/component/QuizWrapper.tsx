@@ -110,7 +110,6 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
             dispatch({ type: 'DELETE_USER', payload: deleteid });
             toggleModal();
             reset();
-            toast.error("Content Delete successfully")
         }
 
     };

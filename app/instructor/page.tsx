@@ -10,11 +10,7 @@ const page = async () => {
   const cookieStore = cookies()
   const id = cookieStore.get('userdata')
 
-
-
-
   const coursedata: any = course.data.filter((item: any) => item.userId === id?.value)
-
 
   return (
     <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">

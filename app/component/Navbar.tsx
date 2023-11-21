@@ -44,7 +44,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar bg-green-900 border-slate-400 px-[1rem] lg:px-[10rem] sm:px-[7rem]">
+    <div className="navbar bg-gray-700 border-slate-400 px-[1rem] lg:px-[10rem] sm:px-[7rem]">
       <div className="flex-1">
         <Link href="/" className="btn font-bold normal-case text-[30px]">EED</Link>
       </div>
@@ -77,8 +77,8 @@ const Navbar = () => {
             </li>
           
             {data?.isAdmin == "1" && <li> <Link href="/user">User dashboard</Link>      </li>}
-            {data?.isAdmin == "2" && <li><Link href="/admin">Admin dashboard</Link>      </li>}
-            {data?.isAdmin == "3" && <li> <Link href="/admin/instructor">Instructor dashboard</Link>      </li>}
+            {data?.isAdmin == "3" && <li><Link href="/admin">Admin dashboard</Link>      </li>}
+            {data?.isAdmin == "2" && <li> <Link href="/instructor">Instructor dashboard</Link>      </li>}
              
       
 

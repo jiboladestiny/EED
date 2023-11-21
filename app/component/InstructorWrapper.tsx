@@ -162,9 +162,8 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
                 const response: any = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/image/upload", formData);
                 if (response.status === 200) {
                     toast.success("Image uploaded successfully");
-
+                    console.log(response)
                     const { url } = response.data;
-
                     const secondresponse = await axios.post(`${process.env.BASE_URL}/api/course`, { ...datas, image: url, userId: data?._id });
                     if (secondresponse.status === 200) {
                         const newUser: Course = { ...datas, image: url, _id: userState.courses.length + 1 };
@@ -275,9 +274,8 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
                                             setSelectedImageFile(selectedFile);
                                             setFormData(imageFormData)
                                         } else {
-                                            // Invalid file type
-                                            // You can display an error message to the user
-                                            console.log("Invalid file type. Please select an image.");
+                                            toast.error("Invalid file type. Please select an image");
+
                                         }
                                     }} type="file" className="file-input w-full max-w-xs" defaultValue={editedCourse?.image ?? ""} />
                                 </div>

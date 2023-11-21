@@ -56,7 +56,7 @@ const InstructorTable: React.FC<TableProps> = ({ course, onEdit, onDelete }) => 
                                 <td className="px-6 py-5">{data.title}</td>
                                 <td className="px-6 py-5">{data.description}...</td>
                                 <td className="px-6 py-5">
-                                    <Link href={`/admin/instructor/quiz/${data._id}`}>   <button
+                                    <Link href={`/instructor/quiz/${data._id}`}>   <button
 
                                         className="font-medium text-green-600 dark:text-green-500 hover:underline"
                                     >
@@ -65,7 +65,7 @@ const InstructorTable: React.FC<TableProps> = ({ course, onEdit, onDelete }) => 
                                     </Link>
                                 </td>
                                 <td className="px-6 py-5">
-                                    <Link href={`/admin/instructor/${data._id}`}>   <button
+                                    <Link href={`/instructor/${data._id}`}>   <button
 
                                         className="font-medium text-green-600 dark:text-green-500 hover:underline"
                                     >
