@@ -127,7 +127,7 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
   const deleteUser = async () => {
     setLoading(true);
     try {
-      const res: any = await axios.delete(`${process.env.BASE_URL}/api/summary/${deleteid}`)
+      const res: any = await axios.delete(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary/${deleteid}`)
       if (res.status === 200) {
         dispatch({ type: 'DELETE_USER', payload: deleteid });
         setLoading(false);
@@ -176,7 +176,7 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
             const { url } = response.data
             toast.success("Vedio uploaded successfully")
 
-            // const secondresponse = await axios.put(`${process.env.BASE_URL}/api/summary`, { ...editedCourse!, vedio: url, ...data });
+            // const secondresponse = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...editedCourse!, vedio: url, ...data });
             // if (secondresponse.status === 200) {
             //   const updatedUser: Summary = { ...editedCourse!, vedio: url, ...data };
             //   updateCourse(updatedUser);
@@ -196,7 +196,7 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
 
       } else {
         try {
-          const secondresponse = await axios.put(`${process.env.BASE_URL}/api/summary`, { ...editedCourse, ...data });
+          const secondresponse = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...editedCourse, ...data });
           if (secondresponse.status === 200) {
             const updatedUser: Summary = { ...editedCourse, ...data };
             updateCourse(updatedUser);
@@ -241,7 +241,7 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
           const { url } = response.data
           toast.success("Vedio added successfully")
 
-          // const secondresponse = await axios.post(`${process.env.BASE_URL}/api/summary`, { ...data, vedio: url, courseId: summaryid });
+          // const secondresponse = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...data, vedio: url, courseId: summaryid });
           // if (secondresponse.status === 200) {
           //   const newUser: Summary = { ...data, vedio: url, _id: userState.summary.length + 1 };
           //   dispatch({ type: 'ADD_USER', payload: newUser });

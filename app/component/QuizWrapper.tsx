@@ -100,7 +100,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
     const deleteUser = async () => {
         const requestConfig = {
             method: "delete",
-            url: `${process.env.BASE_URL}/api/quiz/${deleteid}`,
+            url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz/${deleteid}`,
         };
         const successMessage = "Question Delete successfully";
 
@@ -126,7 +126,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
 
             const requestConfig = {
                 method: 'put',
-                url: `${process.env.BASE_URL}/api/quiz`,
+                url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz`,
                 data: updatedQuiz,
             };
 
@@ -155,7 +155,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
 
             const requestConfig = {
                 method: 'post',
-                url: `${process.env.BASE_URL}/api/quiz`,
+                url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz`,
                 data: quizData,
             };
 

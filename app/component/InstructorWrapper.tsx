@@ -113,7 +113,7 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
                         const { url } = res.data
                         toast.success("Image uploaded successfully")
 
-                        const secondresponse = await axios.put(`${process.env.BASE_URL}/api/course`, { ...editedCourse!, image: url, ...datas });
+                        const secondresponse = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}/api/course`, { ...editedCourse!, image: url, ...datas });
                         if (secondresponse.status === 200) {
                             const updatedUser: Course = { ...editedCourse!, image: url, ...datas };
                             updateCourse(updatedUser);
@@ -134,7 +134,7 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
 
             } else {
                 try {
-                    const secondresponse = await axios.put(`${process.env.BASE_URL}/api/course`, { ...editedCourse, ...datas });
+                    const secondresponse = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}/api/course`, { ...editedCourse, ...datas });
                     if (secondresponse.status === 200) {
                         const updatedUser: Course = { ...editedCourse, ...datas };
                         updateCourse(updatedUser);
@@ -164,7 +164,7 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
                     toast.success("Image uploaded successfully");
                     // console.log(response)
                     const { url } = response.data;
-                    const secondresponse = await axios.post(`${process.env.BASE_URL}/api/course`, { ...datas, image: url, userId: data?._id });
+                    const secondresponse = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}/api/course`, { ...datas, image: url, userId: data?._id });
                     if (secondresponse.status === 200) {
                         const newUser: Course = { ...datas, image: url, _id: userState.courses.length + 1 };
                         dispatch({ type: 'ADD_USER', payload: newUser });
@@ -204,7 +204,7 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
         setLoading(true);
 
         try {
-            const res: any = await axios.delete(`${process.env.BASE_URL}/api/course/${deleteid}`)
+            const res: any = await axios.delete(`${process.env.NEXT_PUBLIC_DOMAIN}/api/course/${deleteid}`)
             if (res.status === 200) {
                 dispatch({ type: 'DELETE_USER', payload: deleteid });
                 toggleModal();

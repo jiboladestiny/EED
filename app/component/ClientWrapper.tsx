@@ -87,7 +87,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
 
       const requestConfig = {
         method: 'put',
-        url: `${process.env.BASE_URL}/api/user`,
+        url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/user`,
         data: updatedUser,
       };
 
@@ -110,7 +110,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
   
       const requestConfig = {
         method: 'post',
-        url: `${process.env.BASE_URL}/api/user`,
+        url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/user`,
         data: responseData,
       };
 
