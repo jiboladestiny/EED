@@ -77,7 +77,7 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
   const [formData, setFormData] = useState<any | null>()
   const [selectedImageFile, setSelectedImageFile] = useState<File | undefined>(undefined);
   const [editImageFile, setEditImageFile] = useState<string | undefined>(undefined);
-  const maxFileSize = 90 * 1024 * 1024; // 10 MB in bytes
+  const maxFileSize = 50 * 1024 * 1024; // 10 MB in bytes
   const [progress, setProgress] = useState(0);
 
   const createImageFormData = (imageFile: File) => {
@@ -324,7 +324,7 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
                         setFormData(imageFormData)
                       } else {
 
-                        toast.error("File size exceeds the maximum limit (10MB).")
+                        toast.error("File size exceeds the maximum limit (50MB).")
 
                       }
                     } else {

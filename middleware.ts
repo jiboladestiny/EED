@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname
     const userPath = "/user"
     const adminPath = "/admin"
-    const instructorPath = "/admin"
+    const instructorPath = "/instructor"
     const publicPath = path === '/login' || path === "/register"
     const token = request.cookies.get('token')?.value || ''
     const role = request.cookies.get('role')?.value || null
@@ -17,12 +17,12 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.nextUrl))
     } 
 
-    if ((path === adminPath) && role !== "2") {
+    if ((path === adminPath) && role !== "3") {
         return NextResponse.redirect(new URL('/', request.nextUrl))
     }
 
 
-    if ((path === instructorPath) && role !== "3") {
+    if ((path === instructorPath) && role !== "2") {
         return NextResponse.redirect(new URL('/', request.nextUrl))
     }
 

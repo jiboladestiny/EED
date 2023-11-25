@@ -162,18 +162,18 @@ const InstructorWrapper: React.FC<ClientWrapperProps> = ({ courses }) => {
                 const response: any = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/image/upload", formData);
                 if (response.status === 200) {
                     toast.success("Image uploaded successfully");
-                    console.log(response)
-                    // const { url } = response.data;
-                    // const secondresponse = await axios.post(`${process.env.BASE_URL}/api/course`, { ...datas, image: url, userId: data?._id });
-                    // if (secondresponse.status === 200) {
-                    //     const newUser: Course = { ...datas, image: url, _id: userState.courses.length + 1 };
-                    //     dispatch({ type: 'ADD_USER', payload: newUser });
-                    //     setPlus(true);
-                    //     setLoading(false);
-                    //     toggleModal();
-                    //     reset();
-                    //     toast.success("Course added successfully");
-                    // }
+                    // console.log(response)
+                    const { url } = response.data;
+                    const secondresponse = await axios.post(`${process.env.BASE_URL}/api/course`, { ...datas, image: url, userId: data?._id });
+                    if (secondresponse.status === 200) {
+                        const newUser: Course = { ...datas, image: url, _id: userState.courses.length + 1 };
+                        dispatch({ type: 'ADD_USER', payload: newUser });
+                        setPlus(true);
+                        setLoading(false);
+                        toggleModal();
+                        reset();
+                        toast.success("Course added successfully");
+                    }
 
                 }
             } catch (error: any) {

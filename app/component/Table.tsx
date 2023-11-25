@@ -53,9 +53,9 @@ const Table: React.FC<TableProps> = ({ users, onEdit, onDelete }) => {
                 <td className="px-6 py-5">{data.email}</td>
                 <td className="px-6 py-5">{data.isAdmin == "1"
                   ? "USER"
-                  : data.isAdmin == "2"
+                  : data.isAdmin == "3"
                     ? "ADMIN"
-                    : data.isAdmin == "3"
+                    : data.isAdmin == "2"
                       ? "INSTRUCTOR"
                       : data.isAdmin}</td>
                 <td className="px-6 py-5">

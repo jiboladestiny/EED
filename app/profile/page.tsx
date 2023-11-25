@@ -54,9 +54,9 @@ const Profile = () => {
                             className="input input-bordered w-full max-w-sm"
                             value={data?.isAdmin == "1"
                                 ? "USER"
-                                : data?.isAdmin == "2"
+                                : data?.isAdmin == "3"
                                     ? "ADMIN"
-                                    : data?.isAdmin == "3"
+                                    : data?.isAdmin == "2"
                                         ? "INSTRUCTOR"
                                         : data?.isAdmin}
                             disabled

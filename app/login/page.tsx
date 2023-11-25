@@ -45,12 +45,12 @@ const Login = () => {
           setLoading(false);
         }
 
-        if (role == "3") {
-          router.push("/admin/instructor");
+        if (role == "2") {
+          router.push("/instructor");
           setLoading(false);
         }
 
-        if (role == "2") {
+        if (role == "3") {
           router.push("/admin");
           setLoading(false);
         }

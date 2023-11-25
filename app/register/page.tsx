@@ -12,16 +12,19 @@ import { useState } from "react";
 interface RegisterInput {
   name: string,
   email: string,
-  password: string
+  password: string,
+  isAdmin: number
 }
 
 const Register = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<RegisterInput>();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const isAdmin: string[] | undefined = ["1", "2", "3"]
+
 
   const onSubmit: SubmitHandler<RegisterInput> = async (data) => {
-    try {
+  try {
       setLoading(true)
       const res = await axios.post("api/user", data)
       console.log(res.data.message)
@@ -32,8 +35,6 @@ const Register = () => {
     } finally {
       setLoading(false)
     }
-
-
   };
 
 
@@ -86,6 +87,27 @@ const Register = () => {
                 placeholder="/12/defds"
                 className="input input-bordered w-full max-w-sm"
               />
+            </div>
+            <div className="form-control w-full max-w-sm">
+              <label className="label">
+                <span className="label-text">Regiser as a</span>
+              </label>
+              <select className="select select-bordered" {...register("isAdmin")}>
+                <option value="" disabled>
+                  Role
+                </option>
+                {isAdmin.map((name) => (
+                  <option key={name} value={name}>
+                    {name === "1"
+                      ? "STUDENT"
+                      : name === "3"
+                        ? "ADMIN"
+                        : name === "2"
+                          ? "INSTRUCTOR"
+                          : name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <Button loading={loading} disabled={!loading}>{loading ? "Registering" : "Register"}</Button>
