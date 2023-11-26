@@ -1,12 +1,10 @@
-import axios from "axios";
-
 const courseData = async () => {
-    try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_DOMAIN}/api/course`);
-        return res.data;
-    } catch (error) {
-        throw new Error("failed to fetchdata");
-    }
+    const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/course`, { cache: 'no-store' });
+        if (!res.ok) {
+            // This will activate the closest `error.js` Error Boundary
+            throw new Error('Failed to fetch data')
+        }
+        return res.json()
 };
 
 export default courseData
