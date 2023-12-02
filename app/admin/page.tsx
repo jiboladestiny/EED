@@ -10,7 +10,6 @@ const page = async () => {
   
 
     <h2 className="mt-2 mb-4 text-gray-500 sm:text-[21px] text-[18px] font-bold leading-8">Users</h2>
-{JSON.stringify(users)}
     <Suspense fallback={<p>Loading data...</p>}>
       <ClientWrapper users={users?.data} />
 

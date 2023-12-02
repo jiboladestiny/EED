@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <DataProvider>  
           <NextTopLoader
-            color="red"
+            color="white"
             initialPosition={0.08}
             crawlSpeed={200}
             height={5}

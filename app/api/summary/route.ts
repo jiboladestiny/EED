@@ -1,20 +1,35 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Summary from '../../models/summaryModel'
 import { NextRequest, NextResponse } from "next/server";
+import cloudinary from "../util/cloudinary";
 
 connect()
 
 export async function POST(request: NextRequest) {
     try {
         const reqBody = await request.json()
-        const { courseId, outline, vedio, description } = reqBody
+        const { courseId, outline, url, publicId, description } = reqBody
+
+
+        // const result = await cloudinary.uploader.upload(asset, {
+        //     resource_type: 'video',
+        //     folder: 'videos'
+        // });
+
+        // if (result.error) {
+        //     return NextResponse.json(
+        //         { error: `Error uploading image to Cloudinary:${result.error.message}` },
+        //         { status: 500 }
+        //     );
+        // }
 
 
         const newSummary = new Summary({
-           courseId,
-           outline,
-           vedio,
-           description
+            courseId,
+            outline,
+            publicId: publicId,
+            url: url,
+            description
         })
 
         const savedSummary = await newSummary.save()
@@ -23,7 +38,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             message: "Summary added succesfully",
             success: true,
-            newSummary
+            savedSummary
 
         })
     } catch (error: any) {
@@ -57,10 +72,13 @@ export async function GET() {
 export async function PUT(request: NextRequest) {
     try {
         const reqBody = await request.json();
-        const { _id, courseId, outline, vedio, description } = reqBody;
+        const { _id, courseId, outline, url, publicId, description } = reqBody;
 
         // Check if the summary with the given ID exists
         const summary = await Summary.findById(_id);
+
+
+
 
         if (!summary) {
             return NextResponse.json({
@@ -68,11 +86,24 @@ export async function PUT(request: NextRequest) {
             }, { status: 404 });
         }
 
-        // Update summary information without changing the password
+
+        const imgId = summary.publicId
+
+        if (imgId) {
+            const deletevedio = await cloudinary.uploader.destroy(imgId, {
+                resource_type: 'video'
+            });
+
+        }
+
+
+
+
         summary.courseId = courseId || summary.courseId;
         summary.outline = outline || summary.outline;
-        summary.vedio = vedio || summary.vedio;
         summary.description = description || summary.description;
+        summary.url = url || summary.secure_url
+        summary.publicId = publicId || summary.publicId
 
 
         const updatedSummary = await summary.save();
@@ -81,6 +112,7 @@ export async function PUT(request: NextRequest) {
             message: "Summary updated successfully",
             success: true,
             updatedSummary
+
         });
     } catch (error: any) {
         return NextResponse.json({
@@ -89,31 +121,3 @@ export async function PUT(request: NextRequest) {
     }
 }
 
-
-export async function DELETE(request: NextRequest) {
-    try {
-        const reqBody = await request.json();
-        const { id } = reqBody;
-
-        // Check if the summary with the given ID exists
-        const course = await Summary.findById({ _id: id });
-
-        if (!course) {
-            return NextResponse.json({
-                message: "No summary found",
-            }, { status: 404 });
-        }
-
-        await Summary.findByIdAndDelete({ _id: id });
-
-
-        return NextResponse.json({
-            message: "Course summary deleted successfully",
-            success: true
-        });
-    } catch (error: any) {
-        return NextResponse.json({
-            error: error.message
-        }, { status: 500 });
-    }
-}

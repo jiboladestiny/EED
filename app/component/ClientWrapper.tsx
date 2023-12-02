@@ -221,9 +221,9 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ users }) => {
                     <option key={name} value={name} selected={editedUser?.isAdmin === name}>
                       {name === "1"
                         ? "USER"
-                        : name === "2"
+                        : name === "3"
                           ? "ADMIN"
-                          : name === "3"
+                          : name === "2"
                             ? "INSTRUCTOR"
                             : name}
                     </option>

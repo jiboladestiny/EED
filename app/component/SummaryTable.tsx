@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 // Define the user type
 interface Summary {
-    _id?: number | undefined; courseId?: string | undefined; outline: string; vedio?: string | undefined; description: string;
+    _id?: number | undefined; courseId?: string | undefined; outline: string; url?: string | undefined; description: string;
 }
 interface TableProps {
     summary: Summary[];
@@ -57,7 +57,7 @@ const SummaryTable: React.FC<TableProps> = ({ summary, onEdit, onDelete, onShowV
                                 <td className="px-6 py-5">
                                     <button
 
-                                        onClick={() => onShowVedio(data.vedio)} // Trigger onEdit function with the user data
+                                        onClick={() => onShowVedio(data.url)} // Trigger onEdit function with the user data
                                         className="font-medium text-green-600 dark:text-green-500 hover:underline"
                                     >
                                         show vedio

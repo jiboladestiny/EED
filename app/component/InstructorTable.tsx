@@ -4,7 +4,7 @@ import React from "react";
 interface Course {
     title: string;
     description: string;
-    image?: string | undefined;
+    url?: string | undefined;
     _id?: number | undefined;
 }
 

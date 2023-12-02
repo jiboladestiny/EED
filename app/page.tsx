@@ -17,7 +17,7 @@ export default async function Home() {
       <h2 className="mt-10 sm:text-[34px] text-[25px] font-bold">Courses</h2>
       <p className="">Choose from the following vocational skills</p>
 
-      <div className="grid md:grid-cols-3 grid-cols-1  mt-10 gap-[2rem]">
+      <div className="grid min-h-[45vh] md:grid-cols-3 grid-cols-1  mt-10 gap-[2rem]">
     
         <Suspense fallback={<p>Course loading</p>}>
           {course.data.map((item: Item) => {

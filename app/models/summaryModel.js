@@ -6,12 +6,13 @@ const userSchema = new mongoose.Schema({
   },
   outline: {
     type: String,
-    require: [true, "Please provide a outline"],
     unique: true,
   },
-  vedio: {
+  url: {
     type: String,
-    require: [true, "Please provide a vedio"],
+  },
+  publicId: {
+    type: String,
   },
   description: {
     type: String,

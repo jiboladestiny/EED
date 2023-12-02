@@ -15,7 +15,7 @@ interface Summary {
   _id?: number | undefined;
   courseId?: string | undefined;
   outline: string;
-  vedio?: string | undefined;
+  url?: string | undefined;
   description: string;
 }
 
@@ -154,17 +154,17 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
       setLoading(true);
       if (selectedImageFile) {
         try {
-          const response = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/video/upload",  formData,{
+          const response = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/video/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
-            onUploadProgress: (progressEvent:any) => {
+            onUploadProgress: (progressEvent: any) => {
               const progress = (progressEvent.loaded / progressEvent.total) * 50;
               console.log(progress);
 
               setProgress(progress);
             },
-            onDownloadProgress: (progressEvent:any) => {
+            onDownloadProgress: (progressEvent: any) => {
               const progress = 50 + (progressEvent.loaded / progressEvent.total) * 50;
               console.log(progress);
               setProgress(progress);
@@ -220,37 +220,37 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
 
 
       try {
-        const response = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/video/upload",formData, {
+        const response = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/video/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          onUploadProgress: (progressEvent:any) => {
+          onUploadProgress: (progressEvent: any) => {
             const progress = (progressEvent.loaded / progressEvent.total) * 50;
-        
+
             setProgress(progress);
           },
-          onDownloadProgress: (progressEvent:any) => {
+          onDownloadProgress: (progressEvent: any) => {
             const progress = 50 + (progressEvent.loaded / progressEvent.total) * 50;
-    
+
             setProgress(progress);
           },
         });
 
         if (response.status === 200) {
- 
-          const { url } = response.data
+
+          const { secure_url, public_id } = response.data
           toast.success("Vedio added successfully")
 
-          // const secondresponse = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...data, vedio: url, courseId: summaryid });
-          // if (secondresponse.status === 200) {
-          //   const newUser: Summary = { ...data, vedio: url, _id: userState.summary.length + 1 };
-          //   dispatch({ type: 'ADD_USER', payload: newUser });
-          //   setPlus(true);
-          //   setLoading(false);
-          //   toggleModal();
-          //   reset();
-          //   toast.success("Content added successfully")
-          // }
+          const secondresponse = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...data, url: secure_url, publicId: public_id, courseId: summaryid });
+          if (secondresponse.status === 200) {
+            const newUser: Summary = { ...data, url: secure_url, _id: userState.summary.length + 1 };
+            dispatch({ type: 'ADD_USER', payload: newUser });
+            setPlus(true);
+            setLoading(false);
+            toggleModal();
+            reset();
+            toast.success("Content added successfully")
+          }
 
         }
       } catch (error: any) {

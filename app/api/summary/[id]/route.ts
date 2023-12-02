@@ -1,6 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Summary from '../../../models/summaryModel'
 import { NextRequest, NextResponse } from "next/server";
+import cloudinary from "../../util/cloudinary";
 
 
 connect()
@@ -35,21 +36,26 @@ export async function GET(request: NextRequest, { params: { id } }: Params) {
 export async function DELETE(request: NextRequest, { params: { id } }: Params) {
     try {
 
+        const summary = await Summary.findById({ _id: id });
 
-        const user = await Summary.findById({ _id: id });
-
-        if (!user) {
+        if (!summary) {
             return NextResponse.json({
                 message: "Content not found",
             }, { status: 404 });
         }
 
-        await Summary.findByIdAndDelete({ _id: id });
+            const imgId = summary.publicId
+
+            const deletevedio = await cloudinary.uploader.destroy(imgId,{
+            resource_type: 'video' 
+           });
+
+            await Summary.findByIdAndDelete({ _id: id });
 
 
         return NextResponse.json({
             message: "Content deleted successfully",
-            success: id
+            success: deletevedio
         });
     } catch (error: any) {
         return NextResponse.json({
