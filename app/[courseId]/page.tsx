@@ -42,7 +42,7 @@ const Page = async ({ params: { courseId } }: Params) => {
     <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
       <div
         style={{
-          backgroundImage: `url(${data[0].image})`,
+          backgroundImage: `url(${data[0].url})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
