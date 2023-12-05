@@ -7,11 +7,12 @@ import { useRouter } from "next/navigation";
 interface ButtonProps {
     hasValues: boolean;
     courseId: { userId: string, courseId: string }
+    display: boolean
 }
 
-function CourseButton({ hasValues, courseId }: ButtonProps) {
+function CourseButton({ hasValues, courseId, display }: ButtonProps) {
     const router = useRouter();
-    const [show, setShow] = useState<boolean | undefined>(false);
+    const [show, setShow] = useState<boolean | undefined>(display);
 
     const { makeRequest, loading } = useHttpRequest();
 

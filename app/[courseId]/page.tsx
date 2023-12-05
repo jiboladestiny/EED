@@ -14,17 +14,21 @@ type Params = {
 
 const Page = async ({ params: { courseId } }: Params) => {
   const course = await courseData();
+
   const summarydata = await summaryData();
   const enrolled = await enrolledCourseData();
+
   const user = await userData();
-  const cookieStore = cookies()
-  const userid: any = cookieStore.get('userdata')
-  const data =  course.data.filter((item: any) => item._id === courseId);
-  const summary =  summarydata.data.filter((item:any) => item.courseId === courseId);
+  const cookieStore = cookies();
+  const userid: any = cookieStore.get('userdata');
+  const role: any = cookieStore.get('role');
 
-  const enrolleddata =  enrolled.data.filter((item: any) => item.userId === userid.value);
+  const data = course.data.filter((item: any) => item._id === courseId);
+  const summary = summarydata.data.filter((item: any) => item.courseId === courseId);
+
+  const enrolleddata = enrolled.data.filter((item: any) => item.userId === userid.value);
   const ifcourse = enrolleddata.filter((item: any) => item.courseId === courseId);
-
+  
   const hasValues = ifcourse.length > 0;
 
   const instructor = user.data.filter((item: any) =>
@@ -39,6 +43,7 @@ const Page = async ({ params: { courseId } }: Params) => {
 
 
   return (
+
     <div className="px-[1rem] sm:px-[7rem] lg:px-[10rem] min-h-[67vh]">
       <div
         style={{
@@ -71,7 +76,7 @@ const Page = async ({ params: { courseId } }: Params) => {
 
 
 
-        {summary.map((item:any) => {
+        {summary.map((item: any) => {
           return (
             <div key={item.id} className="collapse collapse-plus bg-gray-100">
               <input type="radio" name="my-accordion-3" />
@@ -87,7 +92,9 @@ const Page = async ({ params: { courseId } }: Params) => {
 
 
         <div className="mt-[3rem]"></div>
-        <CourseButton courseId={userenrollinfo} hasValues={hasValues} />
+        {role.value == 1 && <CourseButton display={true} courseId={userenrollinfo} hasValues={hasValues} />}
+        {role.value !== 1 && <Button disabled={false}>Enroll</Button>}
+
       </div>
     </div>
   );
