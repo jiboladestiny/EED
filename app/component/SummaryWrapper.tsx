@@ -173,19 +173,19 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
 
           if (response.status === 200) {
             // const res = await response.json();
-            const { url } = response.data
+            const { secure_url, public_id } = response.data
             toast.success("Vedio uploaded successfully")
 
-            // const secondresponse = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...editedCourse!, vedio: url, ...data });
-            // if (secondresponse.status === 200) {
-            //   const updatedUser: Summary = { ...editedCourse!, vedio: url, ...data };
-            //   updateCourse(updatedUser);
-            //   setEditMode(false);
-            //   setLoading(false);
-            //   toggleModal();
-            //   reset()
-            //   toast.success("Content Updated successfully")
-            // }
+            const secondresponse = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...editedCourse!, url: secure_url, publicId: public_id, ...data });
+            if (secondresponse.status === 200) {
+              const updatedUser: Summary = { ...editedCourse!, url: secure_url, ...data };
+              updateCourse(updatedUser);
+              setEditMode(false);
+              setLoading(false);
+              toggleModal();
+              reset()
+              toast.success("Content Updated successfully")
+            }
 
           }
         } catch (error: any) {
@@ -242,8 +242,8 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
           toast.success("Vedio added successfully")
 
           const secondresponse = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...data, url: secure_url, publicId: public_id, courseId: summaryid });
-          if (secondresponse.status === 200) {
-            const newUser: Summary = { ...data, url: secure_url, _id: userState.summary.length + 1 };
+          if (secondresponse.status === 200) {   
+            const newUser: Summary = { ...data, url: secure_url,_id: secondresponse.data.savedSummary._id };
             dispatch({ type: 'ADD_USER', payload: newUser });
             setPlus(true);
             setLoading(false);
