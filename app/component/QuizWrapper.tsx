@@ -1,7 +1,6 @@
 "use client"
 import React, { useReducer, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
 import QuizTable from './QuizTable';
 import Button from './Button';
 import Modal from './Modal';
@@ -109,7 +108,8 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
         if (success) {
             dispatch({ type: 'DELETE_USER', payload: deleteid });
             toggleModal();
-            reset();
+            cleardatas()
+
         }
 
     };
@@ -137,7 +137,8 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
                 dispatch({ type: 'UPDATE_USER', payload: updatedQuiz });
                 // setLoading(false);
                 toggleModal();
-                reset();
+                cleardatas()
+
                 // toast.success("Content updated successfully");
             }
 
@@ -165,9 +166,9 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
             if (success) {
                 dispatch({ type: 'ADD_USER', payload: quizData });
                 setPlus(true);
-                // setLoading(false);
+                cleardatas()
                 toggleModal();
-                reset();
+            
                 // toast.success("Question added successfully")
             }
 
