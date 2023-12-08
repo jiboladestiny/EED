@@ -7,6 +7,8 @@ import Modal from './Modal';
 import Image from 'next/image';
 import error from '../../public/icons/error.png'
 import useHttpRequest from '@/helpers/useHttpRequest';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 
 
@@ -63,7 +65,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
     const [userState, dispatch] = useReducer(reducer, { quiz });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [plus, setPlus] = useState(true)
-    // const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const { register, handleSubmit, reset } = useForm<FormInput>();
     const [editMode, setEditMode] = useState(false);
     const [deletemodal, setDeleteModal] = useState(false)
@@ -73,7 +75,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
     const [options, setOptions] = useState<string[]>([]);
     const [optionValue, setOptionValue] = useState<string>("");
     const isOptionInputDisabled = options.length >= 4;
-    const { makeRequest, loading } = useHttpRequest(); 
+    // const { makeRequest, loading, res } = useHttpRequest();
 
 
 
@@ -97,20 +99,39 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
 
 
     const deleteUser = async () => {
-        const requestConfig = {
-            method: "delete",
-            url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz/${deleteid}`,
-        };
-        const successMessage = "Question Delete successfully";
+        // const requestConfig = {
+        //     method: "delete",
+        //     url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz/${deleteid}`,
+        // };
+        // const successMessage = "Question Delete successfully";
 
-        const success = await makeRequest(requestConfig, successMessage);
+        // const success = await makeRequest(requestConfig, successMessage);
 
-        if (success) {
-            dispatch({ type: 'DELETE_USER', payload: deleteid });
-            toggleModal();
-            cleardatas()
+        // if (success) {
+        //     dispatch({ type: 'DELETE_USER', payload: deleteid });
+        //     toggleModal();
+        //     cleardatas()
+        // }
 
+
+        setLoading(true);
+        try {
+            const res: any = await axios.delete(`${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz/${deleteid}`)
+            if (res.status === 200) {
+                dispatch({ type: 'DELETE_USER', payload: deleteid });
+                                setLoading(false);
+                toggleModal();
+                reset();
+                toast.success("Content Delete successfully")
+                setDeleteModal(false)
+            }
+        } catch (error: any) {
+            setLoading(false)
+            console.log(error)
+            toast.error(error.response.data.error);
         }
+
+
 
     };
 
@@ -124,53 +145,80 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
                 options: options.filter((option) => option.trim() !== ""),
             };
 
-            const requestConfig = {
-                method: 'put',
-                url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz`,
-                data: updatedQuiz,
-            };
+            // const requestConfig = {
+            //     method: 'put',
+            //     url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz`,
+            //     data: updatedQuiz,
+            // };
+            // const successMessage = "Question Updated successfully";
+            // const success = await makeRequest(requestConfig, successMessage);
+            // if (success) {
+            //     dispatch({ type: 'UPDATE_USER', payload: updatedQuiz });
+            //     toggleModal();
+            //     cleardatas()
+            // }
 
-            const successMessage = "Question Updated successfully";
+            setLoading(true);
+            try {
+                const response = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz`, updatedQuiz);
+                if (response.status === 200) {
+                    toast.success("Question added succesfully")
+                    // console.log(response.data.savedQuiz._id);
+                    dispatch({ type: 'UPDATE_USER', payload: updatedQuiz });
+                    // setPlus(true);
+                    setLoading(false)
+                    cleardatas()
+                    toggleModal();
+                }
 
-            const success = await makeRequest(requestConfig, successMessage);
-            if (success) {
-                dispatch({ type: 'UPDATE_USER', payload: updatedQuiz });
-                // setLoading(false);
-                toggleModal();
-                cleardatas()
-
-                // toast.success("Content updated successfully");
+            } catch (error: any) {
+                setLoading(false)
+                toast.error(error.response.data.error);
             }
 
 
         } else {
+            setPlus(false)
+            setLoading(true);
+
             const quizData: Quiz = {
-                _id: userState.quiz.length,
                 courseId: course,
                 question: data.question,
                 correctAnswer: data.correctAnswer,
-                options: options.filter((option) => option.trim() !== ""), 
+                options: options.filter((option) => option.trim() !== ""),
             };
 
-       
 
-            const requestConfig = {
-                method: 'post',
-                url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz`,
-                data: quizData,
-            };
+            try {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz`, quizData);
+                if (response.status === 200) {
+                    toast.success("Question added succesfully")
+                    // console.log(response.data.savedQuiz._id);
+                    dispatch({ type: 'ADD_USER', payload: { ...quizData, _id: response.data.savedQuiz._id } });
+                    setPlus(true);
+                    setLoading(false)
+                    cleardatas()
+                    toggleModal();
+                }
 
-            const successMessage = "Question added successfullys";
-
-            const success = await makeRequest(requestConfig, successMessage);
-            if (success) {
-                dispatch({ type: 'ADD_USER', payload: quizData });
-                setPlus(true);
-                cleardatas()
-                toggleModal();
-            
-                // toast.success("Question added successfully")
+            } catch (error: any) {
+                setLoading(false)
+                toast.error(error.response.data.error);
             }
+
+            // const requestConfig = {
+            //     method: 'post',
+            //     url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/quiz`,
+            //     data: quizData,
+            // };
+
+            // const successMessage = "Question added successfullys";
+
+            // const success = await makeRequest(requestConfig, successMessage);
+            // if (success) {
+            // console.log({ ...quizData, _id: res })
+
+            // }
 
 
 
@@ -186,7 +234,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
     };
 
 
-    const cleardatas = ()=>{
+    const cleardatas = () => {
         setEditMode(false)
         reset({ question: "", correctAnswer: "" });
         setOptions([])
@@ -204,7 +252,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
             <Modal isOpen={isModalOpen} clear={cleardatas} toggleModal={toggleModal}>
                 {deletemodal ? (<>
                     <Image alt="error" src={error} className="mx-auto mb-4" width={48} height={48} />
-                    <h2 className="text-center font-semibold">Are you sure you want to to delete the selected user</h2>
+                    <h2 className="text-center font-semibold">Are you sure you want to to delete the selected question</h2>
 
                     <div className="flex items-center justify-center mt-6 gap-4">
                         <Button disabled={!loading} onClick={deleteUser} loading={loading} error={true}>{loading ? "Deleting Question" : "Delete Question"} </Button></div>
@@ -304,8 +352,8 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
                             : (editMode && loading)
                                 ? "Updating Question"
                                 : (editMode)
-                                        ? "Edit Question"
-                                        : "Add Question"}</Button>
+                                    ? "Edit Question"
+                                    : "Add Question"}</Button>
                     </form></>)}
 
             </Modal>

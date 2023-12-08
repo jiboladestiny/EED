@@ -141,10 +141,6 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
       console.log(error)
       toast.error(error.response.data.error);
     }
-
-
-
-
   };
 
 
@@ -218,7 +214,6 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
       setPlus(false);
       setLoading(true);
 
-
       try {
         const response = await axios.post("https://api.cloudinary.com/v1_1/destiny1233/video/upload", formData, {
           headers: {
@@ -242,8 +237,8 @@ const SummaryWrapper = ({ summary, summaryid }: SummaryWrapperProps) => {
           toast.success("Vedio added successfully")
 
           const secondresponse = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}/api/summary`, { ...data, url: secure_url, publicId: public_id, courseId: summaryid });
-          if (secondresponse.status === 200) {   
-            const newUser: Summary = { ...data, url: secure_url,_id: secondresponse.data.savedSummary._id };
+          if (secondresponse.status === 200) {
+            const newUser: Summary = { ...data, url: secure_url, _id: secondresponse.data.savedSummary._id };
             dispatch({ type: 'ADD_USER', payload: newUser });
             setPlus(true);
             setLoading(false);
