@@ -41,8 +41,9 @@ const page = async ({ params: { courseId, sumId } }: Params) => {
 
             <p className='mb-[3rem]'>{summary[0].description}</p>
 
+
             <div className='lg:px-[10rem]'>
-                <Vedio videoUrl={summary[0].vedio} />
+                <Vedio videoUrl={summary[0].url} />
             </div>
 
             <div className='flex justify-between mt-[3rem]'>
