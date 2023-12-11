@@ -5,6 +5,7 @@ import enrolledCourseData from "@/helpers/getAllEnrolledCourse";
 import userData from "@/helpers/getAllUsers";
 import { cookies } from 'next/headers'
 import CourseButton from "../component/CourseButton";
+import { stringify } from "querystring";
 
 type Params = {
   params: {
@@ -92,8 +93,9 @@ const Page = async ({ params: { courseId } }: Params) => {
 
 
         <div className="mt-[3rem]"></div>
-        {role.value == 1 && <CourseButton display={true} courseId={userenrollinfo} hasValues={hasValues} />}
-        {role.value !== 1 && <Button disabled={false}>Enroll</Button>}
+       
+        {role.value === "1" && <CourseButton courseId={userenrollinfo} hasValues={hasValues} />}
+        {role.value !== "1" && <Button disabled={false}>Enroll</Button>}
 
       </div>
     </div>

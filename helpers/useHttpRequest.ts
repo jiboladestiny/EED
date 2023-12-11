@@ -22,7 +22,7 @@ const useHttpRequest = (): UseHttpRequestResponse => {
 
                 toast.success(successMessage);
                 setLoading(false);
-                setRes(response.data.savedQuiz._id)
+  
                 return true;
             }
         } catch (error: any) {

@@ -253,7 +253,7 @@ const QuizWrapper = ({ quiz, course }: QuizProps) => {
                 {deletemodal ? (<>
                     <Image alt="error" src={error} className="mx-auto mb-4" width={48} height={48} />
                     <h2 className="text-center font-semibold">Are you sure you want to to delete the selected question</h2>
-
+                    
                     <div className="flex items-center justify-center mt-6 gap-4">
                         <Button disabled={!loading} onClick={deleteUser} loading={loading} error={true}>{loading ? "Deleting Question" : "Delete Question"} </Button></div>
                 </>) : (<>        <h2 className="text-center font-bold text-xl">{!editMode ? "Add Queston" : "Edit Question"}</h2>

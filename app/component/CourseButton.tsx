@@ -4,15 +4,16 @@ import Button from './Button';
 import useHttpRequest from '@/helpers/useHttpRequest';
 import { useRouter } from "next/navigation";
 
+
 interface ButtonProps {
     hasValues: boolean;
     courseId: { userId: string, courseId: string }
-    display: boolean
+
 }
 
-function CourseButton({ hasValues, courseId, display }: ButtonProps) {
+function CourseButton({ hasValues, courseId }: ButtonProps) {
     const router = useRouter();
-    const [show, setShow] = useState<boolean | undefined>(display);
+    const [show, setShow] = useState<boolean | undefined>(false);
 
     const { makeRequest, loading } = useHttpRequest();
 
@@ -28,11 +29,12 @@ function CourseButton({ hasValues, courseId, display }: ButtonProps) {
         const success = await makeRequest(requestConfig, successMessage);
         if (success) {
             setShow(true)
+  
         }
 
 
     }
-    return (
+    return (                        
         <>
             {
                 show !== true ? (
